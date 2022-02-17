@@ -1,0 +1,24 @@
+apply plugin: 'org.springframework.boot.experimental.thin-launcher'
+apply plugin: 'io.spring.dependency-management'
+
+dependencyManagement {
+    imports {
+        mavenBom "tech.jhipster:jhipster-dependencies:${jhipsterDependenciesVersion}"
+    }
+}
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            version = '1.0.0'
+            from components.java
+            pom.withXml {
+                Node pomNode = asNode()
+                if (pomNode.dependencyManagement.size() > 1) {
+                    Node dmNode =  pomNode.dependencyManagement.get(1)
+                    pomNode.remove(dmNode)
+                }
+            }
+        }
+    }
+}

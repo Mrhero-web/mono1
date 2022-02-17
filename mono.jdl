@@ -1,0 +1,15 @@
+/** 用户 */
+entity AUser(sys_user) {
+    login String required unique /** 用户名 */
+	password String required minlength(60) maxlength(60)  /** 密码 */
+}
+/** 角色 */
+entity Role(sys_role) {
+    code String required unique /** 角色编码 */
+	name String required unique /** 角色名称 */
+}
+/** 用户角色 */
+entity UserRole(sys_user_role) {
+	userId Long required /** 用户ID */
+    roleCode String required /** 角色编码 */
+}

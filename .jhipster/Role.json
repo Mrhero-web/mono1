@@ -1,0 +1,29 @@
+{
+  "applications": "*",
+  "changelogDate": "20211121042433",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "sys_role",
+  "fields": [
+    {
+      "fieldName": "code",
+      "fieldType": "String",
+      "fieldValidateRules": ["required", "unique"],
+      "javadoc": "角色编码"
+    },
+    {
+      "fieldName": "name",
+      "fieldType": "String",
+      "fieldValidateRules": ["required", "unique"],
+      "javadoc": "角色名称"
+    }
+  ],
+  "fluentMethods": true,
+  "javadoc": "角色",
+  "jpaMetamodelFiltering": false,
+  "name": "Role",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [],
+  "service": "no"
+}

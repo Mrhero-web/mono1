@@ -1,0 +1,27 @@
+{
+  "applications": "*",
+  "changelogDate": "20220312080907",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "a_relevance_c",
+  "fields": [
+    {
+      "fieldName": "aId",
+      "fieldType": "Long",
+      "javadoc": "医嘱项目编号"
+    },
+    {
+      "fieldName": "cId",
+      "fieldType": "Long",
+      "javadoc": "课程编号"
+    }
+  ],
+  "fluentMethods": true,
+  "javadoc": "课程-医嘱关联表",
+  "jpaMetamodelFiltering": false,
+  "name": "ARelevanceC",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [],
+  "service": "no"
+}

@@ -1,0 +1,65 @@
+{
+  "applications": "*",
+  "changelogDate": "20220312080910",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "course_records",
+  "fields": [
+    {
+      "fieldName": "cId",
+      "fieldType": "Long",
+      "javadoc": "课程编号"
+    },
+    {
+      "fieldName": "tId",
+      "fieldType": "Long",
+      "javadoc": "教师编号"
+    },
+    {
+      "fieldName": "rId",
+      "fieldType": "Long",
+      "javadoc": "教室编号"
+    },
+    {
+      "fieldName": "classDate",
+      "fieldType": "Instant",
+      "javadoc": "上课日期"
+    },
+    {
+      "fieldName": "schoolTime",
+      "fieldType": "Instant",
+      "javadoc": "上课时间"
+    },
+    {
+      "fieldName": "classTime",
+      "fieldType": "Instant",
+      "javadoc": "下课时间"
+    },
+    {
+      "fieldName": "cStatus",
+      "fieldType": "CourseStatus",
+      "fieldTypeJavadoc": "课程状态",
+      "fieldValues": "NOTSTART,COMPLETE,CANCEL,HANDLE",
+      "fieldValuesJavadocs": {
+        "CANCEL": "已取消",
+        "COMPLETE": "已完成",
+        "HANDLE": "已处理",
+        "NOTSTART": "未开始"
+      },
+      "javadoc": "课程状态"
+    },
+    {
+      "fieldName": "modified",
+      "fieldType": "Boolean",
+      "javadoc": "是否手动修改过"
+    }
+  ],
+  "fluentMethods": true,
+  "javadoc": "课程记录",
+  "jpaMetamodelFiltering": false,
+  "name": "CourseRecords",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [],
+  "service": "no"
+}

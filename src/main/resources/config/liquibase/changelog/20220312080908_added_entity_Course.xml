@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd
+                        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+    <!--
+        Added the entity Course.
+    -->
+    <changeSet id="20220312080908-1" author="jhipster">
+        <createTable tableName="course" remarks="课程">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="c_name" type="varchar(255)" remarks="课程名称">
+                <constraints nullable="true" />
+            </column>
+            <column name="c_introduce" type="varchar(255)" remarks="课程介绍">
+                <constraints nullable="true" />
+            </column>
+            <column name="d_id" type="bigint" remarks="所属科室">
+                <constraints nullable="true" />
+            </column>
+            <column name="c_type" type="boolean" remarks="课程类型【单人课（T）/多人课】">
+                <constraints nullable="true" />
+            </column>
+            <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
+        </createTable>
+    </changeSet>
+
+    <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here -->
+</databaseChangeLog>

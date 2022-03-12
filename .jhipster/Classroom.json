@@ -1,0 +1,32 @@
+{
+  "applications": "*",
+  "changelogDate": "20220312080906",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "classroom",
+  "fields": [
+    {
+      "fieldName": "rAddress",
+      "fieldType": "String",
+      "javadoc": "教室地址"
+    },
+    {
+      "fieldName": "rName",
+      "fieldType": "String",
+      "javadoc": "教室名称"
+    },
+    {
+      "fieldName": "tId",
+      "fieldType": "Long",
+      "javadoc": "负责教师"
+    }
+  ],
+  "fluentMethods": true,
+  "javadoc": "教室",
+  "jpaMetamodelFiltering": false,
+  "name": "Classroom",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [],
+  "service": "no"
+}

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd
+                        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+    <!--
+        Added the entity ListOfCourses.
+    -->
+    <changeSet id="20220312080909-1" author="jhipster">
+        <createTable tableName="list_of_courses" remarks="课程安排">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="c_id" type="bigint" remarks="课程编号">
+                <constraints nullable="true" />
+            </column>
+            <column name="p_id" type="bigint" remarks="患者编号">
+                <constraints nullable="true" />
+            </column>
+            <column name="t_id" type="bigint" remarks="教师编号">
+                <constraints nullable="true" />
+            </column>
+            <column name="r_id" type="bigint" remarks="教室编号">
+                <constraints nullable="true" />
+            </column>
+            <column name="school_time" type="${datetimeType}" remarks="上课时间">
+                <constraints nullable="true" />
+            </column>
+            <column name="class_time" type="${datetimeType}" remarks="下课时间">
+                <constraints nullable="true" />
+            </column>
+            <column name="l_type" type="boolean" remarks="安排类型【寒暑假（T）/日常】">
+                <constraints nullable="true" />
+            </column>
+            <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
+        </createTable>
+        <dropDefaultValue tableName="list_of_courses" columnName="school_time" columnDataType="${datetimeType}"/>
+        <dropDefaultValue tableName="list_of_courses" columnName="class_time" columnDataType="${datetimeType}"/>
+    </changeSet>
+
+    <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here -->
+</databaseChangeLog>

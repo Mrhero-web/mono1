@@ -1,0 +1,52 @@
+{
+  "applications": "*",
+  "changelogDate": "20220312080909",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "list_of_courses",
+  "fields": [
+    {
+      "fieldName": "cId",
+      "fieldType": "Long",
+      "javadoc": "课程编号"
+    },
+    {
+      "fieldName": "pId",
+      "fieldType": "Long",
+      "javadoc": "患者编号"
+    },
+    {
+      "fieldName": "tId",
+      "fieldType": "Long",
+      "javadoc": "教师编号"
+    },
+    {
+      "fieldName": "rId",
+      "fieldType": "Long",
+      "javadoc": "教室编号"
+    },
+    {
+      "fieldName": "schoolTime",
+      "fieldType": "Instant",
+      "javadoc": "上课时间"
+    },
+    {
+      "fieldName": "classTime",
+      "fieldType": "Instant",
+      "javadoc": "下课时间"
+    },
+    {
+      "fieldName": "lType",
+      "fieldType": "Boolean",
+      "javadoc": "安排类型【寒暑假（T）/日常】"
+    }
+  ],
+  "fluentMethods": true,
+  "javadoc": "课程安排",
+  "jpaMetamodelFiltering": false,
+  "name": "ListOfCourses",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [],
+  "service": "no"
+}

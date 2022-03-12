@@ -1,0 +1,50 @@
+{
+  "applications": "*",
+  "changelogDate": "20220312080913",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "past_student_records",
+  "fields": [
+    {
+      "fieldName": "crId",
+      "fieldType": "Long",
+      "javadoc": "课程记录编号"
+    },
+    {
+      "fieldName": "pId",
+      "fieldType": "Long",
+      "javadoc": "学生编号"
+    },
+    {
+      "fieldName": "signIn",
+      "fieldType": "SignInStatus",
+      "fieldTypeJavadoc": "签到状态",
+      "fieldValues": "DIDNOT,SIGNIN,ASKFORLEAVE,LEAVE",
+      "fieldValuesJavadocs": {
+        "ASKFORLEAVE": "请假中",
+        "DIDNOT": "未签到",
+        "LEAVE": "已请假",
+        "SIGNIN": "已签到"
+      },
+      "javadoc": "学生签到状态"
+    },
+    {
+      "fieldName": "signInTime",
+      "fieldType": "Instant",
+      "javadoc": "签到时间"
+    },
+    {
+      "fieldName": "signInImage",
+      "fieldType": "String",
+      "javadoc": "签到照片"
+    }
+  ],
+  "fluentMethods": true,
+  "javadoc": "历史签到记录",
+  "jpaMetamodelFiltering": false,
+  "name": "PastStudentRecords",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [],
+  "service": "no"
+}

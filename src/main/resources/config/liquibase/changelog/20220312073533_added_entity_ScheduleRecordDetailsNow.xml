@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd
+                        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+    <!--
+        Added the entity ScheduleRecordDetailsNow.
+    -->
+    <changeSet id="20220312073533-1" author="jhipster">
+        <createTable tableName="schedule_record_details_now" remarks="当天排程记录详情">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="d_name" type="varchar(255)" remarks="可是名称">
+                <constraints nullable="true" />
+            </column>
+            <column name="cure_id" type="bigint" remarks="患者编号">
+                <constraints nullable="true" />
+            </column>
+            <column name="medical_number" type="bigint" remarks="医嘱编号">
+                <constraints nullable="true" />
+            </column>
+            <column name="d_num" type="bigint" remarks="科室编号">
+                <constraints nullable="true" />
+            </column>
+            <column name="id_num" type="varchar(255)" remarks="身份证编号">
+                <constraints nullable="true" />
+            </column>
+            <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
+        </createTable>
+    </changeSet>
+
+    <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here -->
+</databaseChangeLog>

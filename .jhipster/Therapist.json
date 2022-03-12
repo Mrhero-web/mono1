@@ -1,0 +1,32 @@
+{
+  "applications": "*",
+  "changelogDate": "20220312073537",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "therapist",
+  "fields": [
+    {
+      "fieldName": "cureName",
+      "fieldType": "String",
+      "javadoc": "治疗名称"
+    },
+    {
+      "fieldName": "cureId",
+      "fieldType": "Long",
+      "javadoc": "职工编号"
+    },
+    {
+      "fieldName": "name",
+      "fieldType": "String",
+      "javadoc": "职工名称"
+    }
+  ],
+  "fluentMethods": true,
+  "javadoc": "治疗技师对应表",
+  "jpaMetamodelFiltering": false,
+  "name": "Therapist",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [],
+  "service": "no"
+}

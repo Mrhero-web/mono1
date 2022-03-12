@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd
+                        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+    <!--
+        Added the entity EForm.
+    -->
+    <changeSet id="20220312073529-1" author="jhipster">
+        <createTable tableName="e_form" remarks="评估表">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="cure_id" type="bigint" remarks="患者编号">
+                <constraints nullable="true" />
+            </column>
+            <column name="id_num" type="varchar(255)" remarks="患者身份证">
+                <constraints nullable="true" />
+            </column>
+            <column name="e_category" type="varchar(255)" remarks="评估类别">
+                <constraints nullable="true" />
+            </column>
+            <column name="staff_id" type="bigint" remarks="职工编号">
+                <constraints nullable="true" />
+            </column>
+            <column name="e_conclusion" type="varchar(255)" remarks="既往病史">
+                <constraints nullable="true" />
+            </column>
+            <column name="e_time" type="${datetimeType}" remarks="评估时间">
+                <constraints nullable="true" />
+            </column>
+            <column name="e_illness" type="varchar(255)" remarks="评估结论">
+                <constraints nullable="true" />
+            </column>
+            <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
+        </createTable>
+        <dropDefaultValue tableName="e_form" columnName="e_time" columnDataType="${datetimeType}"/>
+    </changeSet>
+
+    <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here -->
+</databaseChangeLog>

@@ -1,0 +1,32 @@
+{
+  "applications": "*",
+  "changelogDate": "20220312073536",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "department",
+  "fields": [
+    {
+      "fieldName": "dName",
+      "fieldType": "String",
+      "javadoc": "科室名称"
+    },
+    {
+      "fieldName": "dManager",
+      "fieldType": "String",
+      "javadoc": "科室主任名称"
+    },
+    {
+      "fieldName": "dNum",
+      "fieldType": "Long",
+      "javadoc": "科室主任编号"
+    }
+  ],
+  "fluentMethods": true,
+  "javadoc": "科室信息",
+  "jpaMetamodelFiltering": false,
+  "name": "Department",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [],
+  "service": "no"
+}

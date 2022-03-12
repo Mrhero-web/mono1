@@ -1,0 +1,37 @@
+{
+  "applications": "*",
+  "changelogDate": "20220312073528",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "e_item_result",
+  "fields": [
+    {
+      "fieldName": "eItemResult",
+      "fieldType": "String",
+      "javadoc": "评估分项结果"
+    },
+    {
+      "fieldName": "eNumber",
+      "fieldType": "Long",
+      "javadoc": "评估编号"
+    },
+    {
+      "fieldName": "eItemNumber",
+      "fieldType": "Long",
+      "javadoc": "评估分项编号"
+    },
+    {
+      "fieldName": "eSubitem",
+      "fieldType": "Long",
+      "javadoc": "评估分项"
+    }
+  ],
+  "fluentMethods": true,
+  "javadoc": "评估分项结果表",
+  "jpaMetamodelFiltering": false,
+  "name": "EItemResult",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [],
+  "service": "no"
+}

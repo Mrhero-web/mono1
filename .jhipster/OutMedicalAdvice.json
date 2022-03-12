@@ -1,0 +1,113 @@
+{
+  "applications": "*",
+  "changelogDate": "20220312072213",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "out_medical_advice",
+  "fields": [
+    {
+      "fieldName": "cureNumber",
+      "fieldType": "Long",
+      "javadoc": "治疗编号"
+    },
+    {
+      "fieldName": "cureName",
+      "fieldType": "String",
+      "javadoc": "治疗名称"
+    },
+    {
+      "fieldName": "norms",
+      "fieldType": "String",
+      "javadoc": "规格说明"
+    },
+    {
+      "fieldName": "unit",
+      "fieldType": "String",
+      "javadoc": "计量单位"
+    },
+    {
+      "fieldName": "charge",
+      "fieldType": "String",
+      "javadoc": "住院收费方式"
+    },
+    {
+      "fieldName": "price",
+      "fieldType": "Float",
+      "javadoc": "住院标准金额"
+    },
+    {
+      "fieldName": "useNumber",
+      "fieldType": "Integer",
+      "javadoc": "使用数量"
+    },
+    {
+      "fieldName": "staffId",
+      "fieldType": "Long",
+      "javadoc": "信息录入职工编号"
+    },
+    {
+      "fieldName": "cureId",
+      "fieldType": "Long",
+      "javadoc": "患者编号"
+    },
+    {
+      "fieldName": "idNum",
+      "fieldType": "String",
+      "javadoc": "患者身份证"
+    },
+    {
+      "fieldName": "startDoctor",
+      "fieldType": "Long",
+      "javadoc": "处方医生"
+    },
+    {
+      "fieldName": "startDepartment",
+      "fieldType": "String",
+      "javadoc": "处方科室"
+    },
+    {
+      "fieldName": "nurseDepartment",
+      "fieldType": "String",
+      "javadoc": "核算科室"
+    },
+    {
+      "fieldName": "startTime",
+      "fieldType": "Instant",
+      "javadoc": "开始时间"
+    },
+    {
+      "fieldName": "stopTime",
+      "fieldType": "Instant",
+      "javadoc": "停止时间"
+    },
+    {
+      "fieldName": "nurseConfirmation",
+      "fieldType": "Long",
+      "javadoc": "核对确认"
+    },
+    {
+      "fieldName": "state",
+      "fieldType": "State",
+      "fieldTypeJavadoc": "在院医嘱状态",
+      "fieldValues": "NOTSEE,SEE",
+      "fieldValuesJavadocs": {
+        "NOTSEE": "未审",
+        "SEE": "已审"
+      },
+      "javadoc": "状态"
+    },
+    {
+      "fieldName": "thisSystem",
+      "fieldType": "Boolean",
+      "javadoc": "此系统录入"
+    }
+  ],
+  "fluentMethods": true,
+  "javadoc": "历史医嘱表",
+  "jpaMetamodelFiltering": false,
+  "name": "OutMedicalAdvice",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [],
+  "service": "no"
+}

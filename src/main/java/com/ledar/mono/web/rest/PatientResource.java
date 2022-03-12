@@ -123,6 +123,9 @@ public class PatientResource {
         Optional<Patient> Patient = patientRepository.findPatientByLogin(currentUserLogin);
         return  ResponseUtil.wrapOrNotFound(Patient);
     }
+   /* @Operation(summary = "申请取消排程" , description="作者：田春晓")
+    @PutMapping("/patients/cancel")
+    public ResponseEntity<void> cancel*/
 
     /**
      * {@code POST  /patients} : Create a new patient.

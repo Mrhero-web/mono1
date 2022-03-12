@@ -1,0 +1,42 @@
+{
+  "applications": "*",
+  "changelogDate": "20220312072214",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "treatment_program",
+  "fields": [
+    {
+      "fieldName": "cureName",
+      "fieldType": "String",
+      "javadoc": "治疗名称"
+    },
+    {
+      "fieldName": "norms",
+      "fieldType": "String",
+      "javadoc": "规格说明"
+    },
+    {
+      "fieldName": "unit",
+      "fieldType": "String",
+      "javadoc": "计量单位"
+    },
+    {
+      "fieldName": "charge",
+      "fieldType": "String",
+      "javadoc": "住院收费方式"
+    },
+    {
+      "fieldName": "price",
+      "fieldType": "Float",
+      "javadoc": "住院标准金额"
+    }
+  ],
+  "fluentMethods": true,
+  "javadoc": "治疗项目",
+  "jpaMetamodelFiltering": false,
+  "name": "TreatmentProgram",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [],
+  "service": "no"
+}

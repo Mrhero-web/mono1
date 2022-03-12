@@ -1,0 +1,59 @@
+{
+  "applications": "*",
+  "changelogDate": "20220312073529",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "e_form",
+  "fields": [
+    {
+      "fieldName": "cureId",
+      "fieldType": "Long",
+      "javadoc": "患者编号"
+    },
+    {
+      "fieldName": "idNum",
+      "fieldType": "String",
+      "javadoc": "患者身份证"
+    },
+    {
+      "fieldName": "eCategory",
+      "fieldType": "Category",
+      "fieldTypeJavadoc": "评估类型",
+      "fieldValues": "ENTER,STAGE,LEAVE",
+      "fieldValuesJavadocs": {
+        "ENTER": "入院",
+        "LEAVE": "出院",
+        "STAGE": "阶段"
+      },
+      "javadoc": "评估类别"
+    },
+    {
+      "fieldName": "staffId",
+      "fieldType": "Long",
+      "javadoc": "职工编号"
+    },
+    {
+      "fieldName": "eConclusion",
+      "fieldType": "String",
+      "javadoc": "既往病史"
+    },
+    {
+      "fieldName": "eTime",
+      "fieldType": "Instant",
+      "javadoc": "评估时间"
+    },
+    {
+      "fieldName": "eIllness",
+      "fieldType": "String",
+      "javadoc": "评估结论"
+    }
+  ],
+  "fluentMethods": true,
+  "javadoc": "评估表",
+  "jpaMetamodelFiltering": false,
+  "name": "EForm",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [],
+  "service": "no"
+}

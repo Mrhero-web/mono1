@@ -1,0 +1,42 @@
+{
+  "applications": "*",
+  "changelogDate": "20220312073534",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "schedule_record_details",
+  "fields": [
+    {
+      "fieldName": "dName",
+      "fieldType": "String",
+      "javadoc": "可是名称"
+    },
+    {
+      "fieldName": "cureId",
+      "fieldType": "Long",
+      "javadoc": "患者编号"
+    },
+    {
+      "fieldName": "medicalNumber",
+      "fieldType": "Long",
+      "javadoc": "医嘱编号"
+    },
+    {
+      "fieldName": "dNum",
+      "fieldType": "Long",
+      "javadoc": "科室编号"
+    },
+    {
+      "fieldName": "idNum",
+      "fieldType": "String",
+      "javadoc": "身份证编号"
+    }
+  ],
+  "fluentMethods": true,
+  "javadoc": "预先排程记录详情表",
+  "jpaMetamodelFiltering": false,
+  "name": "ScheduleRecordDetails",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [],
+  "service": "no"
+}

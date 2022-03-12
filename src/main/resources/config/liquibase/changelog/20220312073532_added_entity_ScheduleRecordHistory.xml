@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd
+                        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+    <!--
+        Added the entity ScheduleRecordHistory.
+    -->
+    <changeSet id="20220312073532-1" author="jhipster">
+        <createTable tableName="schedule_record_history" remarks="历史排程记录">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="cure_project_num" type="bigint" remarks="治疗项目编号">
+                <constraints nullable="true" />
+            </column>
+            <column name="cure_id" type="bigint" remarks="职工编号">
+                <constraints nullable="true" />
+            </column>
+            <column name="name" type="varchar(255)" remarks="职工名称">
+                <constraints nullable="true" />
+            </column>
+            <column name="schedule_time" type="${datetimeType}" remarks="排程时间">
+                <constraints nullable="true" />
+            </column>
+            <column name="schedule_isachive" type="varchar(255)" remarks="技师确认状态">
+                <constraints nullable="true" />
+            </column>
+            <column name="schedule_cure_time" type="${datetimeType}" remarks="治疗时间">
+                <constraints nullable="true" />
+            </column>
+            <column name="details_num" type="bigint" remarks="当天详情编号">
+                <constraints nullable="true" />
+            </column>
+            <column name="photo_url" type="varchar(255)" remarks="照片地址">
+                <constraints nullable="true" />
+            </column>
+            <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
+        </createTable>
+        <dropDefaultValue tableName="schedule_record_history" columnName="schedule_time" columnDataType="${datetimeType}"/>
+        <dropDefaultValue tableName="schedule_record_history" columnName="schedule_cure_time" columnDataType="${datetimeType}"/>
+    </changeSet>
+
+    <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here -->
+</databaseChangeLog>

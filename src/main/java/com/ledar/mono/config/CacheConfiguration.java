@@ -55,6 +55,21 @@ public class CacheConfiguration {
             createCache(cm, com.ledar.mono.domain.Staff.class.getName());
             createCache(cm, com.ledar.mono.domain.Patient.class.getName());
             createCache(cm, com.ledar.mono.domain.Group.class.getName());
+            createCache(cm, com.ledar.mono.domain.InMedicalAdvice.class.getName());
+            createCache(cm, com.ledar.mono.domain.OutMedicalAdvice.class.getName());
+            createCache(cm, com.ledar.mono.domain.TreatmentProgram.class.getName());
+            createCache(cm, com.ledar.mono.domain.EItem1.class.getName());
+            createCache(cm, com.ledar.mono.domain.EItem2.class.getName());
+            createCache(cm, com.ledar.mono.domain.EItemResult.class.getName());
+            createCache(cm, com.ledar.mono.domain.EForm.class.getName());
+            createCache(cm, com.ledar.mono.domain.ScheduleRecordNow.class.getName());
+            createCache(cm, com.ledar.mono.domain.ScheduleRecord.class.getName());
+            createCache(cm, com.ledar.mono.domain.ScheduleRecordHistory.class.getName());
+            createCache(cm, com.ledar.mono.domain.ScheduleRecordDetailsNow.class.getName());
+            createCache(cm, com.ledar.mono.domain.ScheduleRecordDetails.class.getName());
+            createCache(cm, com.ledar.mono.domain.ScheduleRecordDetailsHistory.class.getName());
+            createCache(cm, com.ledar.mono.domain.Department.class.getName());
+            createCache(cm, com.ledar.mono.domain.Therapist.class.getName());
             // jhipster-needle-ehcache-add-entry
         };
     }

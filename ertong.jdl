@@ -1,0 +1,57 @@
+/** 在院医嘱状态 */
+enum State{
+    /** 未审 */
+    NOTSEE,
+    /** 已审 */
+    SEE
+}
+/** 在院医嘱表 */
+entity InMedicalAdvice(in_medical_advice){
+    cureNumber Long /** 治疗编号 */
+    cureName String /** 治疗名称 */
+    norms String /** 规格说明 */
+    unit String /** 计量单位 */
+    charge String /** 住院收费方式 */
+    price  Float /** 住院标准金额 */
+    useNumber Integer /** 使用数量 */
+    staffId Long /** 信息录入职工编号 */
+    cureId Long /** 患者编号 */
+    idNum  String /** 患者身份证 */
+    startDoctor Long /** 处方医生 */
+    startDepartment String /** 处方科室 */
+    nurseDepartment String /** 核算科室 */
+    startTime Instant  /** 开始时间 */
+    stopTime Instant  /** 停止时间 */
+    nurseConfirmation Long /** 核对确认 */
+    state State  /** 状态 */
+    thisSystem Boolean /** 此系统录入 */
+}
+/** 历史医嘱表 */
+entity OutMedicalAdvice(out_medical_advice){
+    cureNumber Long /** 治疗编号 */
+    cureName String /** 治疗名称 */
+    norms String /** 规格说明 */
+    unit String /** 计量单位 */
+    charge String /** 住院收费方式 */
+    price  Float /** 住院标准金额 */
+    useNumber Integer /** 使用数量 */
+    staffId Long /** 信息录入职工编号 */
+    cureId Long /** 患者编号 */
+    idNum  String /** 患者身份证 */
+    startDoctor Long /** 处方医生 */
+    startDepartment String /** 处方科室 */
+    nurseDepartment String /** 核算科室 */
+    startTime Instant  /** 开始时间 */
+    stopTime Instant  /** 停止时间 */
+    nurseConfirmation Long /** 核对确认 */
+    state State  /** 状态 */
+    thisSystem Boolean /** 此系统录入 */
+}
+/** 治疗项目 */
+entity TreatmentProgram(treatment_program){
+    cureName String /** 治疗名称 */
+    norms String /** 规格说明 */
+    unit String /** 计量单位 */
+    charge String /** 住院收费方式 */
+    price  Float /** 住院标准金额 */
+}

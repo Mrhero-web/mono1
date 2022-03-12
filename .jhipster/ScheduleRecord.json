@@ -1,0 +1,64 @@
+{
+  "applications": "*",
+  "changelogDate": "20220312073531",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "schedule_record",
+  "fields": [
+    {
+      "fieldName": "cureProjectNum",
+      "fieldType": "Long",
+      "javadoc": "治疗项目编号"
+    },
+    {
+      "fieldName": "cureId",
+      "fieldType": "Long",
+      "javadoc": "职工编号"
+    },
+    {
+      "fieldName": "name",
+      "fieldType": "String",
+      "javadoc": "职工名称"
+    },
+    {
+      "fieldName": "scheduleTime",
+      "fieldType": "Instant",
+      "javadoc": "排程时间"
+    },
+    {
+      "fieldName": "scheduleIsachive",
+      "fieldType": "Confirmation",
+      "fieldTypeJavadoc": "技师确认状态",
+      "fieldValues": "DELETE,FINISHED,END",
+      "fieldValuesJavadocs": {
+        "DELETE": "未完成",
+        "END": "已取消",
+        "FINISHED": "已完成"
+      },
+      "javadoc": "技师确认状态"
+    },
+    {
+      "fieldName": "scheduleCureTime",
+      "fieldType": "Instant",
+      "javadoc": "治疗时间"
+    },
+    {
+      "fieldName": "detailsNum",
+      "fieldType": "Long",
+      "javadoc": "当天详情编号"
+    },
+    {
+      "fieldName": "photoUrl",
+      "fieldType": "String",
+      "javadoc": "照片地址"
+    }
+  ],
+  "fluentMethods": true,
+  "javadoc": "排程记录（预先排程）",
+  "jpaMetamodelFiltering": false,
+  "name": "ScheduleRecord",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [],
+  "service": "no"
+}

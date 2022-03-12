@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd
+                        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+    <!--
+        Added the entity OutMedicalAdvice.
+    -->
+    <changeSet id="20220312072213-1" author="jhipster">
+        <createTable tableName="out_medical_advice" remarks="历史医嘱表">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="cure_number" type="bigint" remarks="治疗编号">
+                <constraints nullable="true" />
+            </column>
+            <column name="cure_name" type="varchar(255)" remarks="治疗名称">
+                <constraints nullable="true" />
+            </column>
+            <column name="norms" type="varchar(255)" remarks="规格说明">
+                <constraints nullable="true" />
+            </column>
+            <column name="unit" type="varchar(255)" remarks="计量单位">
+                <constraints nullable="true" />
+            </column>
+            <column name="charge" type="varchar(255)" remarks="住院收费方式">
+                <constraints nullable="true" />
+            </column>
+            <column name="price" type="${floatType}" remarks="住院标准金额">
+                <constraints nullable="true" />
+            </column>
+            <column name="use_number" type="integer" remarks="使用数量">
+                <constraints nullable="true" />
+            </column>
+            <column name="staff_id" type="bigint" remarks="信息录入职工编号">
+                <constraints nullable="true" />
+            </column>
+            <column name="cure_id" type="bigint" remarks="患者编号">
+                <constraints nullable="true" />
+            </column>
+            <column name="id_num" type="varchar(255)" remarks="患者身份证">
+                <constraints nullable="true" />
+            </column>
+            <column name="start_doctor" type="bigint" remarks="处方医生">
+                <constraints nullable="true" />
+            </column>
+            <column name="start_department" type="varchar(255)" remarks="处方科室">
+                <constraints nullable="true" />
+            </column>
+            <column name="nurse_department" type="varchar(255)" remarks="核算科室">
+                <constraints nullable="true" />
+            </column>
+            <column name="start_time" type="${datetimeType}" remarks="开始时间">
+                <constraints nullable="true" />
+            </column>
+            <column name="stop_time" type="${datetimeType}" remarks="停止时间">
+                <constraints nullable="true" />
+            </column>
+            <column name="nurse_confirmation" type="bigint" remarks="核对确认">
+                <constraints nullable="true" />
+            </column>
+            <column name="state" type="varchar(255)" remarks="状态">
+                <constraints nullable="true" />
+            </column>
+            <column name="this_system" type="boolean" remarks="此系统录入">
+                <constraints nullable="true" />
+            </column>
+            <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
+        </createTable>
+        <dropDefaultValue tableName="out_medical_advice" columnName="start_time" columnDataType="${datetimeType}"/>
+        <dropDefaultValue tableName="out_medical_advice" columnName="stop_time" columnDataType="${datetimeType}"/>
+    </changeSet>
+
+    <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here -->
+</databaseChangeLog>

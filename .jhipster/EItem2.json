@@ -1,0 +1,27 @@
+{
+  "applications": "*",
+  "changelogDate": "20220312073527",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "e_item_2",
+  "fields": [
+    {
+      "fieldName": "eItemResult",
+      "fieldType": "Long",
+      "javadoc": "评估分项结果编号"
+    },
+    {
+      "fieldName": "eZ1",
+      "fieldType": "String",
+      "javadoc": "评估字段"
+    }
+  ],
+  "fluentMethods": true,
+  "javadoc": "评估分项表",
+  "jpaMetamodelFiltering": false,
+  "name": "EItem2",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [],
+  "service": "no"
+}

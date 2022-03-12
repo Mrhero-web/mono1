@@ -1,0 +1,32 @@
+{
+  "applications": "*",
+  "changelogDate": "20220312042229",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "sys_api",
+  "fields": [
+    {
+      "fieldName": "name",
+      "fieldType": "String",
+      "javadoc": "接口名称"
+    },
+    {
+      "fieldName": "requestMethod",
+      "fieldType": "String",
+      "javadoc": "请求方法"
+    },
+    {
+      "fieldName": "url",
+      "fieldType": "String",
+      "javadoc": "路径"
+    }
+  ],
+  "fluentMethods": true,
+  "javadoc": "接口表",
+  "jpaMetamodelFiltering": false,
+  "name": "Api",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [],
+  "service": "no"
+}

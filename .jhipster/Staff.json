@@ -1,0 +1,115 @@
+{
+  "applications": "*",
+  "changelogDate": "20220312042235",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "staff",
+  "fields": [
+    {
+      "fieldName": "userId",
+      "fieldType": "Long",
+      "fieldValidateRules": ["required", "unique"],
+      "javadoc": "用户ID"
+    },
+    {
+      "fieldName": "name",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"],
+      "javadoc": "姓名"
+    },
+    {
+      "fieldName": "gender",
+      "fieldType": "String",
+      "javadoc": "性别"
+    },
+    {
+      "fieldName": "education",
+      "fieldType": "String",
+      "javadoc": "学历"
+    },
+    {
+      "fieldName": "major",
+      "fieldType": "String",
+      "javadoc": "专业"
+    },
+    {
+      "fieldName": "title",
+      "fieldType": "String",
+      "javadoc": "职称"
+    },
+    {
+      "fieldName": "phoneNum",
+      "fieldType": "String",
+      "javadoc": "电话号"
+    },
+    {
+      "fieldName": "address",
+      "fieldType": "String",
+      "javadoc": "联系地址"
+    },
+    {
+      "fieldName": "birthday",
+      "fieldType": "LocalDate",
+      "javadoc": "出生日期"
+    },
+    {
+      "fieldName": "idNum",
+      "fieldType": "String",
+      "fieldValidateRules": ["required", "unique"],
+      "javadoc": "身份证号"
+    },
+    {
+      "fieldName": "departmentNum",
+      "fieldType": "Integer",
+      "fieldValidateRules": ["required"],
+      "javadoc": "所属科室号"
+    },
+    {
+      "fieldName": "sStatus",
+      "fieldType": "SStatus",
+      "fieldTypeJavadoc": "枚举类",
+      "fieldValues": "BUSY,FREE",
+      "javadoc": "员工状态"
+    },
+    {
+      "fieldName": "politicalAffiliation",
+      "fieldType": "String",
+      "javadoc": "政治面貌"
+    },
+    {
+      "fieldName": "nationality",
+      "fieldType": "String",
+      "javadoc": "民族"
+    },
+    {
+      "fieldName": "groupId",
+      "fieldType": "Integer",
+      "javadoc": "小组ID"
+    },
+    {
+      "fieldName": "fromHospitalSystem",
+      "fieldType": "Boolean",
+      "fieldValidateRules": ["required"],
+      "javadoc": "是否住院系统导入"
+    },
+    {
+      "fieldName": "login",
+      "fieldType": "String",
+      "fieldValidateRules": ["unique"],
+      "javadoc": "登录名"
+    },
+    {
+      "fieldName": "password",
+      "fieldType": "String",
+      "javadoc": "登录密码"
+    }
+  ],
+  "fluentMethods": true,
+  "javadoc": "员工表",
+  "jpaMetamodelFiltering": false,
+  "name": "Staff",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [],
+  "service": "no"
+}

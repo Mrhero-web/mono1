@@ -1,0 +1,125 @@
+{
+  "applications": "*",
+  "changelogDate": "20220312042236",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "patient",
+  "fields": [
+    {
+      "fieldName": "userId",
+      "fieldType": "Long",
+      "fieldValidateRules": ["required"],
+      "javadoc": "用户编号"
+    },
+    {
+      "fieldName": "hospitalId",
+      "fieldType": "Long",
+      "javadoc": "住院编号"
+    },
+    {
+      "fieldName": "name",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"],
+      "javadoc": "姓名"
+    },
+    {
+      "fieldName": "gender",
+      "fieldType": "String",
+      "javadoc": "性别"
+    },
+    {
+      "fieldName": "age",
+      "fieldType": "Integer",
+      "javadoc": "年龄"
+    },
+    {
+      "fieldName": "birthday",
+      "fieldType": "LocalDate",
+      "javadoc": "出生日期"
+    },
+    {
+      "fieldName": "idNum",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"],
+      "javadoc": "身份证号"
+    },
+    {
+      "fieldName": "phoneNumber",
+      "fieldType": "String",
+      "javadoc": "电话号"
+    },
+    {
+      "fieldName": "admissionDate",
+      "fieldType": "Instant",
+      "javadoc": "入院日期"
+    },
+    {
+      "fieldName": "dischargedDate",
+      "fieldType": "Instant",
+      "javadoc": "出院日期"
+    },
+    {
+      "fieldName": "admissionDepartmentId",
+      "fieldType": "Long",
+      "javadoc": "入院科室"
+    },
+    {
+      "fieldName": "daysInHospital",
+      "fieldType": "Integer",
+      "javadoc": "住院天数"
+    },
+    {
+      "fieldName": "hospitalPhysician",
+      "fieldType": "String",
+      "javadoc": "住院医师"
+    },
+    {
+      "fieldName": "therapist",
+      "fieldType": "String",
+      "javadoc": "诊疗技师"
+    },
+    {
+      "fieldName": "admissionMethod",
+      "fieldType": "String",
+      "javadoc": "入院方式"
+    },
+    {
+      "fieldName": "currentDepartmentId",
+      "fieldType": "Long",
+      "fieldValidateRules": ["required"],
+      "javadoc": "现在科室编号"
+    },
+    {
+      "fieldName": "patientType",
+      "fieldType": "PatientType",
+      "fieldTypeJavadoc": "病人类型",
+      "fieldValues": "ADULT,CHILD",
+      "javadoc": "病人类型"
+    },
+    {
+      "fieldName": "fromHospitalSystem",
+      "fieldType": "Boolean",
+      "fieldValidateRules": ["required"],
+      "javadoc": "是否住院系统导入"
+    },
+    {
+      "fieldName": "login",
+      "fieldType": "String",
+      "fieldValidateRules": ["unique"],
+      "javadoc": "登录名"
+    },
+    {
+      "fieldName": "password",
+      "fieldType": "String",
+      "javadoc": "登录密码"
+    }
+  ],
+  "fluentMethods": true,
+  "javadoc": "病人表",
+  "jpaMetamodelFiltering": false,
+  "name": "Patient",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [],
+  "service": "no"
+}

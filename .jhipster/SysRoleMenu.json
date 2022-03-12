@@ -1,0 +1,27 @@
+{
+  "applications": "*",
+  "changelogDate": "20220312042231",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "sys_role_menu",
+  "fields": [
+    {
+      "fieldName": "sysRoleId",
+      "fieldType": "Long",
+      "javadoc": "角色外键"
+    },
+    {
+      "fieldName": "sysMenuId",
+      "fieldType": "Long",
+      "javadoc": "菜单外键"
+    }
+  ],
+  "fluentMethods": true,
+  "javadoc": "角色菜单关联表",
+  "jpaMetamodelFiltering": false,
+  "name": "SysRoleMenu",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [],
+  "service": "no"
+}

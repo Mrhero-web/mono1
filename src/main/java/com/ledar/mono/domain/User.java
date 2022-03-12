@@ -1,5 +1,6 @@
 package com.ledar.mono.domain;
 
+import com.ledar.mono.domain.enumeration.Status;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.io.Serializable;
 import javax.persistence.*;
@@ -40,7 +41,24 @@ public class User implements Serializable {
     @Size(min = 60, max = 60)
     @Column(name = "password", length = 60, nullable = false)
     private String password;
+    /**
+     * 状态
+     */
+    @Schema(description = "状态", required = true)
+    @NotNull
+    @Column(name = "user_Status", nullable = false)
+    private Status userStatus;
+    public User userStatus(Status userStatus) {
+        this.setUserStatus(userStatus);
+        return this;
+    }
 
+    public void setUserStatus(Status userStatus) {
+        this.userStatus = userStatus;
+    }
+    public Status getUserStatus() {
+        return this.userStatus;
+    }
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
     public Long getId() {
@@ -110,4 +128,6 @@ public class User implements Serializable {
             ", password='" + getPassword() + "'" +
             "}";
     }
+
+
 }

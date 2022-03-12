@@ -1,0 +1,29 @@
+{
+  "applications": "*",
+  "changelogDate": "20220312042237",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "jhi_group",
+  "fields": [
+    {
+      "fieldName": "groupLeaderStaffId",
+      "fieldType": "Long",
+      "fieldValidateRules": ["required"],
+      "javadoc": "组长的员工编号"
+    },
+    {
+      "fieldName": "departmentId",
+      "fieldType": "Long",
+      "fieldValidateRules": ["required"],
+      "javadoc": "所属科室的编号"
+    }
+  ],
+  "fluentMethods": true,
+  "javadoc": "技/教师小组",
+  "jpaMetamodelFiltering": false,
+  "name": "Group",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [],
+  "service": "no"
+}

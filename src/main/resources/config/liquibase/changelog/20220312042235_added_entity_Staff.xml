@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd
+                        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+    <!--
+        Added the entity Staff.
+    -->
+    <changeSet id="20220312042235-1" author="jhipster">
+        <createTable tableName="staff" remarks="员工表">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="user_id" type="bigint" remarks="用户ID">
+                <constraints nullable="false" unique="true" uniqueConstraintName="ux_staff__user_id" />
+            </column>
+            <column name="name" type="varchar(255)" remarks="姓名">
+                <constraints nullable="false" />
+            </column>
+            <column name="gender" type="varchar(255)" remarks="性别">
+                <constraints nullable="true" />
+            </column>
+            <column name="education" type="varchar(255)" remarks="学历">
+                <constraints nullable="true" />
+            </column>
+            <column name="major" type="varchar(255)" remarks="专业">
+                <constraints nullable="true" />
+            </column>
+            <column name="title" type="varchar(255)" remarks="职称">
+                <constraints nullable="true" />
+            </column>
+            <column name="phone_num" type="varchar(255)" remarks="电话号">
+                <constraints nullable="true" />
+            </column>
+            <column name="address" type="varchar(255)" remarks="联系地址">
+                <constraints nullable="true" />
+            </column>
+            <column name="birthday" type="date" remarks="出生日期">
+                <constraints nullable="true" />
+            </column>
+            <column name="id_num" type="varchar(255)" remarks="身份证号">
+                <constraints nullable="false" unique="true" uniqueConstraintName="ux_staff__id_num" />
+            </column>
+            <column name="department_num" type="integer" remarks="所属科室号">
+                <constraints nullable="false" />
+            </column>
+            <column name="s_status" type="varchar(255)" remarks="员工状态">
+                <constraints nullable="true" />
+            </column>
+            <column name="political_affiliation" type="varchar(255)" remarks="政治面貌">
+                <constraints nullable="true" />
+            </column>
+            <column name="nationality" type="varchar(255)" remarks="民族">
+                <constraints nullable="true" />
+            </column>
+            <column name="group_id" type="integer" remarks="小组ID">
+                <constraints nullable="true" />
+            </column>
+            <column name="from_hospital_system" type="boolean" remarks="是否住院系统导入">
+                <constraints nullable="false" />
+            </column>
+            <column name="login" type="varchar(255)" remarks="登录名">
+                <constraints nullable="true" unique="true" uniqueConstraintName="ux_staff__login" />
+            </column>
+            <column name="password" type="varchar(255)" remarks="登录密码">
+                <constraints nullable="true" />
+            </column>
+            <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
+        </createTable>
+    </changeSet>
+
+    <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here -->
+</databaseChangeLog>

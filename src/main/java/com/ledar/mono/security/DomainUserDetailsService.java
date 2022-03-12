@@ -42,13 +42,17 @@ public class DomainUserDetailsService implements UserDetailsService {
             .orElseThrow(() -> new UsernameNotFoundException("Invalid username or password"));
     }
 
-    private org.springframework.security.core.userdetails.User createSpringSecurityUser(User user) {
+    private UserModel createSpringSecurityUser(User user) {
         List<GrantedAuthority> authorities = userRoleRepository
-            .findAllByUserId(user.getId())
+            .getAllRoleCodeByUserId(user.getId())
+            //.findAllByUserId(user.getId())
             .stream()
-            .map(userRole -> new SimpleGrantedAuthority(userRole.getRoleCode()))
+            //.map(SimpleGrantedAuthority::new)
+            .map(roleCode->new SimpleGrantedAuthority(roleCode))
+            //.map(userRole -> new SimpleGrantedAuthority(userRole.getRoleCode()))
             .distinct()
             .collect(Collectors.toList());
-        return new org.springframework.security.core.userdetails.User(user.getLogin(), user.getPassword(), authorities);
+        return new UserModel(user.getLogin(), user.getPassword(), authorities,user.getId(),user.getUserStatus());
     }
+
 }

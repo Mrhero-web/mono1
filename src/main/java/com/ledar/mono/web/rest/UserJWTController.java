@@ -49,9 +49,22 @@ public class UserJWTController {
         return new ResponseEntity<>(new JWTToken(jwt), httpHeaders, HttpStatus.OK);
     }
 
+//    @GetMapping("/getCurrentUser-details")
+//    @ApiOperation(value = "获取当前登录用户信息")
+//    public ResponseEntity<User> getCurrentUser(@RequestParam String userName) {
+////        Optional<SysUserTable> sysUserTableOptional = sysUserTableRepository.findOneByLoginCode(login);
+//        Optional<User> sysUserOptional = userRepository.findOneByLoginAndStatusIsNot(userName, Status.DELETE);
+//        if (!sysUserOptional.isPresent()) {
+//            throw new BadRequestAlertException("该用户不存在或已被删除", "", "获取失败");
+//        }
+//        User result = sysUserOptional.get();
+//        return ResponseEntity.ok().body(result);
+//    }
+
     /**
      * Object to return as body in JWT Authentication.
      */
+
     static class JWTToken {
 
         private String idToken;

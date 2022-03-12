@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd
+                        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+    <!--
+        Added the entity SysRoleDataScope.
+    -->
+    <changeSet id="20220312042232-1" author="jhipster">
+        <createTable tableName="sys_role_data_scope" remarks="角色数据权限表">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="sys_role_id" type="bigint" remarks="控制角色ID">
+                <constraints nullable="true" />
+            </column>
+            <column name="ctrl_type" type="varchar(255)" remarks="控制类型">
+                <constraints nullable="true" />
+            </column>
+            <column name="ctrl_data" type="varchar(255)" remarks="控制数据，如控制类型为公司，那么这里就是公司编号">
+                <constraints nullable="true" />
+            </column>
+            <column name="ctrl_permit" type="varchar(255)" remarks="控制权限">
+                <constraints nullable="true" />
+            </column>
+            <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
+        </createTable>
+    </changeSet>
+
+    <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here -->
+</databaseChangeLog>

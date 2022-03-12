@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd
+                        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+    <!--
+        Added the entity Role.
+    -->
+    <changeSet id="20220312042227-1" author="jhipster">
+        <createTable tableName="sys_role" remarks="角色表">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="role_code" type="varchar(255)" remarks="角色编号,形如 ROLE_ADMIN,必须以ROLE_作为前缀(SpringSecurity要求)">
+                <constraints nullable="false" unique="true" uniqueConstraintName="ux_sys_role__role_code" />
+            </column>
+            <column name="role_name_in_en" type="varchar(255)" remarks="角色英文名称">
+                <constraints nullable="false" />
+            </column>
+            <column name="role_name_in_cn" type="varchar(255)" remarks="角色中文名称">
+                <constraints nullable="true" />
+            </column>
+            <column name="role_status" type="varchar(255)" remarks="角色状态">
+                <constraints nullable="true" />
+            </column>
+            <column name="web_or_app" type="varchar(255)" remarks="操作平台">
+                <constraints nullable="true" />
+            </column>
+            <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
+        </createTable>
+    </changeSet>
+
+    <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here -->
+</databaseChangeLog>

@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd
+                        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+    <!--
+        Added the entity Menu.
+    -->
+    <changeSet id="20220312042228-1" author="jhipster">
+        <createTable tableName="sys_menu" remarks="菜单表">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="menu_code" type="varchar(255)" remarks="菜单编码">
+                <constraints nullable="true" />
+            </column>
+            <column name="parent_id" type="integer" remarks="父级编号">
+                <constraints nullable="true" />
+            </column>
+            <column name="parent_ids" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="tree_sort" type="integer" remarks="本级排序号（升序）">
+                <constraints nullable="true" />
+            </column>
+            <column name="tree_sorts" type="integer" remarks="所有级别排序号">
+                <constraints nullable="true" />
+            </column>
+            <column name="tree_leaf" type="boolean" remarks="是否最末级">
+                <constraints nullable="false" />
+            </column>
+            <column name="tree_level" type="integer" remarks="层次级别">
+                <constraints nullable="false" />
+            </column>
+            <column name="tree_names" type="varchar(255)" remarks="全节点名">
+                <constraints nullable="true" />
+            </column>
+            <column name="menu_name" type="varchar(255)" remarks="菜单名称">
+                <constraints nullable="false" />
+            </column>
+            <column name="menu_type" type="varchar(255)" remarks="菜单类型">
+                <constraints nullable="false" />
+            </column>
+            <column name="menu_href" type="varchar(255)" remarks="链接">
+                <constraints nullable="true" />
+            </column>
+            <column name="menu_icon" type="varchar(255)" remarks="图标">
+                <constraints nullable="true" />
+            </column>
+            <column name="menu_title" type="varchar(255)" remarks="菜单标题">
+                <constraints nullable="true" />
+            </column>
+            <column name="permission" type="varchar(255)" remarks="权限标识">
+                <constraints nullable="true" />
+            </column>
+            <column name="menu_sort" type="integer" remarks="菜单排序(升序)">
+                <constraints nullable="false" />
+            </column>
+            <column name="is_show" type="boolean" remarks="是否显示">
+                <constraints nullable="false" />
+            </column>
+            <column name="sys_code" type="varchar(255)" remarks="归属系统">
+                <constraints nullable="true" />
+            </column>
+            <column name="status" type="varchar(255)" remarks="状态">
+                <constraints nullable="false" />
+            </column>
+            <column name="remarks" type="varchar(255)" remarks="备注信息">
+                <constraints nullable="true" />
+            </column>
+            <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
+        </createTable>
+    </changeSet>
+
+    <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here -->
+</databaseChangeLog>

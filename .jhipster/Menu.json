@@ -1,0 +1,133 @@
+{
+  "applications": "*",
+  "changelogDate": "20220312042228",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "sys_menu",
+  "fields": [
+    {
+      "fieldName": "menuCode",
+      "fieldType": "String",
+      "javadoc": "菜单编码"
+    },
+    {
+      "fieldName": "parentId",
+      "fieldType": "Integer",
+      "javadoc": "父级编号"
+    },
+    {
+      "fieldName": "parentIds",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "treeSort",
+      "fieldType": "Integer",
+      "javadoc": "本级排序号（升序）"
+    },
+    {
+      "fieldName": "treeSorts",
+      "fieldType": "Integer",
+      "javadoc": "所有级别排序号"
+    },
+    {
+      "fieldName": "treeLeaf",
+      "fieldType": "Boolean",
+      "fieldValidateRules": ["required"],
+      "javadoc": "是否最末级"
+    },
+    {
+      "fieldName": "treeLevel",
+      "fieldType": "Integer",
+      "fieldValidateRules": ["required"],
+      "javadoc": "层次级别"
+    },
+    {
+      "fieldName": "treeNames",
+      "fieldType": "String",
+      "javadoc": "全节点名"
+    },
+    {
+      "fieldName": "menuName",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"],
+      "javadoc": "菜单名称"
+    },
+    {
+      "fieldName": "menuType",
+      "fieldType": "MenuType",
+      "fieldValidateRules": ["required"],
+      "fieldValues": "MENU,PERMISSION,DEV",
+      "javadoc": "菜单类型"
+    },
+    {
+      "fieldName": "menuHref",
+      "fieldType": "String",
+      "javadoc": "链接"
+    },
+    {
+      "fieldName": "menuIcon",
+      "fieldType": "String",
+      "javadoc": "图标"
+    },
+    {
+      "fieldName": "menuTitle",
+      "fieldType": "String",
+      "javadoc": "菜单标题"
+    },
+    {
+      "fieldName": "permission",
+      "fieldType": "String",
+      "javadoc": "权限标识"
+    },
+    {
+      "fieldName": "menuSort",
+      "fieldType": "Integer",
+      "fieldValidateRules": ["required"],
+      "javadoc": "菜单排序(升序)"
+    },
+    {
+      "fieldName": "isShow",
+      "fieldType": "Boolean",
+      "fieldValidateRules": ["required"],
+      "javadoc": "是否显示"
+    },
+    {
+      "fieldName": "sysCode",
+      "fieldType": "WebOrApp",
+      "fieldTypeJavadoc": "枚举类",
+      "fieldValues": "WEB,APP,BOTH",
+      "fieldValuesJavadocs": {
+        "APP": "移动端",
+        "BOTH": "移动端和电脑端",
+        "WEB": "电脑端"
+      },
+      "javadoc": "归属系统"
+    },
+    {
+      "fieldName": "status",
+      "fieldType": "Status",
+      "fieldTypeJavadoc": "用户和角色和菜单的状态",
+      "fieldValidateRules": ["required"],
+      "fieldValues": "DELETE,NORMAL,DISABLE",
+      "fieldValuesJavadocs": {
+        "DELETE": "删除",
+        "DISABLE": "停用",
+        "NORMAL": "正常"
+      },
+      "javadoc": "状态"
+    },
+    {
+      "fieldName": "remarks",
+      "fieldType": "String",
+      "javadoc": "备注信息"
+    }
+  ],
+  "fluentMethods": true,
+  "javadoc": "菜单表",
+  "jpaMetamodelFiltering": false,
+  "name": "Menu",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [],
+  "service": "no"
+}

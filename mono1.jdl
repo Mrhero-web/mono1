@@ -1,0 +1,261 @@
+/** 用户和角色和菜单的状态 */
+enum Status{
+    /** 删除 */
+    DELETE,
+    /** 正常 */
+    NORMAL,
+    /** 停用 */
+    DISABLE
+}
+
+/** 角色表 */
+entity Role(sys_role){
+    /** 角色编号,形如 ROLE_ADMIN,必须以ROLE_作为前缀(SpringSecurity要求) */
+    roleCode String required unique,
+    /** 角色英文名称 */
+	roleNameInEn RoleName required ,
+	/**角色中文名称*/
+	roleNameInCn String,
+	/** 角色状态 */
+	roleStatus Status,
+	/** 操作平台 */
+	webOrApp WebOrApp
+}
+/**枚举类 */
+enum WebOrApp{
+	/** 电脑端 */
+    WEB,
+    /** 移动端 */
+    APP,
+    /** 移动端和电脑端 */
+    BOTH
+}
+/** 用户表 */
+entity User(sys_user){
+    /** 用户状态 */
+    userStatus Status,
+    /** 用户名 */
+    login String required unique ,
+    /**用户密码 */
+    password String required minlength(60) maxlength(60)
+}
+/** 菜单表 */
+entity Menu(sys_menu){
+    /** 菜单编码 */
+    menuCode String,
+    /**  父级编号 */
+    parentId Integer,
+    /*所有父级编号 */
+	parentIds String,
+	/** 本级排序号（升序）*/
+	treeSort Integer,
+	/**所有级别排序号*/
+	treeSorts Integer,
+	/**是否最末级*/
+	treeLeaf Boolean required,
+	/**层次级别*/
+	treeLevel Integer required,
+	/**全节点名*/
+	treeNames String,
+	/**菜单名称*/
+	menuName String required,
+	/**菜单类型*/
+	menuType MenuType required,
+    /**链接*/
+    menuHref String,
+    /**图标*/
+    menuIcon String,
+    /**菜单标题*/
+    menuTitle String,
+    /**权限标识*/
+    permission String,
+    /**菜单排序(升序)*/
+    menuSort Integer required,
+    /**是否显示*/
+    isShow Boolean required,
+    /**归属系统*/
+    sysCode WebOrApp,
+    /**状态*/
+    status Status required,
+    /**备注信息*/
+    remarks String
+}
+/** 接口表 */
+entity Api(sys_api){
+    /**接口名称*/
+    name String,
+    /**请求方法*/
+    requestMethod String,
+    /**路径*/
+    url String
+}
+/** 角色接口关联表 */
+entity SysRoleApi(sys_role_api){
+    /**角色外键*/
+    sysRoleId Long,
+    /**接口外键*/
+    sysApiId Long
+}
+/** 角色菜单关联表 */
+entity SysRoleMenu(sys_role_menu){
+    /**角色外键*/
+    sysRoleId Long,
+    /**菜单外键*/
+    sysMenuId Long
+}
+/** 角色数据权限表 */
+entity SysRoleDataScope(sys_role_data_scope){
+     /**控制角色ID*/
+     sysRoleId Long,
+     /**控制类型*/
+     ctrlType CtrlType,
+     /** 控制数据，如控制类型为公司，那么这里就是公司编号*/
+     ctrlData String,
+     /** 控制权限*/
+     ctrlPermit String
+ }
+ /** 用户数据权限表 */
+ entity SysUserDataScope(sys_user_data_scope){
+      /**控制用户ID*/
+      sysUserId Long,
+      /**控制类型*/
+      ctrlType CtrlType,
+      /** 控制数据，如控制类型为公司，那么这里就是公司编号*/
+      ctrlData String,
+      /** 控制权限*/
+      ctrlPermit String
+  }
+enum CtrlType{
+    COMPANY,
+    OFFICE
+}
+enum MenuType{
+    MENU,
+    PERMISSION,
+    DEV
+}
+/**枚举类 */
+enum RoleName{
+    /** 病人 */
+    PATIENT,
+    /** 护士 */
+    NURSE,
+    /** 治疗师 */
+    THERAPIST,
+    /** 教师 */
+    TEACHER,
+    /** 组长 */
+    GROUPLEADER,
+    /** 医生 */
+    DOCTOR,
+    /** 科室主任 */
+    DEPARTMENTMANAGER,
+    /** 管理员 */
+    ADMINISTRATOR,
+    /** 院领导 */
+    BOSS
+}
+/** 用户角色关系表 */
+entity UserRole(sys_user_role){
+    userId Long required ,/** 用户ID */
+    roleId Long required /** 角色ID */
+}
+/**枚举类*/
+enum SStatus{
+    BUSY,
+    FREE
+}
+/**员工表*/
+entity Staff(Staff){
+    /** 用户ID*/
+    userId Long required unique,
+    /** 姓名*/
+    name String required ,
+    /** 性别*/
+    gender String,
+    /** 学历*/
+    education String ,
+    /** 专业*/
+    major String,
+    /** 职称*/
+    title String ,
+    /** 电话号*/
+    phoneNum String,
+    /** 联系地址*/
+    address String,
+    /** 出生日期*/
+    birthday LocalDate,
+    /** 身份证号*/
+    idNum String required unique ,
+    /**所属科室号*/
+    departmentNum Integer required ,
+    /** 员工状态*/
+    sStatus SStatus,
+    /** 政治面貌*/
+    politicalAffiliation String ,
+    /** 民族*/
+    nationality String ,
+    /** 小组ID*/
+    groupId Integer  ,
+    /** 是否住院系统导入*/
+    fromHospitalSystem Boolean required ,
+    /** 登录名*/
+    login String unique,
+    /** 登录密码*/
+    password String
+}
+/**病人表*/
+entity Patient{
+    /**用户编号*/
+    userId  Long required,
+    /**住院编号*/
+    hospitalId Long,
+    /** 姓名*/
+    name String required ,
+    /** 性别*/
+    gender String,
+    /** 年龄*/
+    age Integer ,
+    /** 出生日期*/
+    birthday LocalDate ,
+    /** 身份证号*/
+    idNum String required ,
+    /** 电话号*/
+    phoneNumber String ,
+    /**入院日期*/
+    admissionDate Instant ,
+   /**出院日期*/
+    dischargedDate Instant ,
+    /**入院科室*/
+    admissionDepartmentId Long,
+    /**住院天数*/
+    daysInHospital Integer ,
+    /**住院医师*/
+    hospitalPhysician String ,
+    /**诊疗技师*/
+    therapist String ,
+    /**入院方式*/
+    admissionMethod String,
+    /**现在科室编号*/
+    currentDepartmentId Long required,
+    /**病人类型*/
+    patientType PatientType,
+    /** 是否住院系统导入*/
+    fromHospitalSystem Boolean required ,
+    /** 登录名*/
+    login String unique,
+    /** 登录密码*/
+    password String
+}
+/**病人类型*/
+enum PatientType{
+    ADULT,
+    CHILD
+}
+/**技/教师小组*/
+entity Group{
+    /** 组长的员工编号*/
+    groupLeaderStaffId Long required,
+    /** 所属科室的编号*/
+    departmentId Long required
+}

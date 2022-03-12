@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd
+                        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+    <!--
+        Added the entity Patient.
+    -->
+    <changeSet id="20220312042236-1" author="jhipster">
+        <createTable tableName="patient" remarks="病人表">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="user_id" type="bigint" remarks="用户编号">
+                <constraints nullable="false" />
+            </column>
+            <column name="hospital_id" type="bigint" remarks="住院编号">
+                <constraints nullable="true" />
+            </column>
+            <column name="name" type="varchar(255)" remarks="姓名">
+                <constraints nullable="false" />
+            </column>
+            <column name="gender" type="varchar(255)" remarks="性别">
+                <constraints nullable="true" />
+            </column>
+            <column name="age" type="integer" remarks="年龄">
+                <constraints nullable="true" />
+            </column>
+            <column name="birthday" type="date" remarks="出生日期">
+                <constraints nullable="true" />
+            </column>
+            <column name="id_num" type="varchar(255)" remarks="身份证号">
+                <constraints nullable="false" />
+            </column>
+            <column name="phone_number" type="varchar(255)" remarks="电话号">
+                <constraints nullable="true" />
+            </column>
+            <column name="admission_date" type="${datetimeType}" remarks="入院日期">
+                <constraints nullable="true" />
+            </column>
+            <column name="discharged_date" type="${datetimeType}" remarks="出院日期">
+                <constraints nullable="true" />
+            </column>
+            <column name="admission_department_id" type="bigint" remarks="入院科室">
+                <constraints nullable="true" />
+            </column>
+            <column name="days_in_hospital" type="integer" remarks="住院天数">
+                <constraints nullable="true" />
+            </column>
+            <column name="hospital_physician" type="varchar(255)" remarks="住院医师">
+                <constraints nullable="true" />
+            </column>
+            <column name="therapist" type="varchar(255)" remarks="诊疗技师">
+                <constraints nullable="true" />
+            </column>
+            <column name="admission_method" type="varchar(255)" remarks="入院方式">
+                <constraints nullable="true" />
+            </column>
+            <column name="current_department_id" type="bigint" remarks="现在科室编号">
+                <constraints nullable="false" />
+            </column>
+            <column name="patient_type" type="varchar(255)" remarks="病人类型">
+                <constraints nullable="true" />
+            </column>
+            <column name="from_hospital_system" type="boolean" remarks="是否住院系统导入">
+                <constraints nullable="false" />
+            </column>
+            <column name="login" type="varchar(255)" remarks="登录名">
+                <constraints nullable="true" unique="true" uniqueConstraintName="ux_patient__login" />
+            </column>
+            <column name="password" type="varchar(255)" remarks="登录密码">
+                <constraints nullable="true" />
+            </column>
+            <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
+        </createTable>
+        <dropDefaultValue tableName="patient" columnName="admission_date" columnDataType="${datetimeType}"/>
+        <dropDefaultValue tableName="patient" columnName="discharged_date" columnDataType="${datetimeType}"/>
+    </changeSet>
+
+    <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here -->
+</databaseChangeLog>

@@ -1,25 +1,67 @@
 {
   "applications": "*",
-  "changelogDate": "20211121042433",
+  "changelogDate": "20220312042227",
   "dto": "no",
   "embedded": false,
   "entityTableName": "sys_role",
   "fields": [
     {
-      "fieldName": "code",
+      "fieldName": "roleCode",
       "fieldType": "String",
       "fieldValidateRules": ["required", "unique"],
-      "javadoc": "角色编码"
+      "javadoc": "角色编号,形如 ROLE_ADMIN,必须以ROLE_作为前缀(SpringSecurity要求)"
     },
     {
-      "fieldName": "name",
+      "fieldName": "roleNameInEn",
+      "fieldType": "RoleName",
+      "fieldTypeJavadoc": "枚举类",
+      "fieldValidateRules": ["required"],
+      "fieldValues": "PATIENT,NURSE,THERAPIST,TEACHER,GROUPLEADER,DOCTOR,DEPARTMENTMANAGER,ADMINISTRATOR,BOSS",
+      "fieldValuesJavadocs": {
+        "ADMINISTRATOR": "管理员",
+        "BOSS": "院领导",
+        "DEPARTMENTMANAGER": "科室主任",
+        "DOCTOR": "医生",
+        "GROUPLEADER": "组长",
+        "NURSE": "护士",
+        "PATIENT": "病人",
+        "TEACHER": "教师",
+        "THERAPIST": "治疗师"
+      },
+      "javadoc": "角色英文名称"
+    },
+    {
+      "fieldName": "roleNameInCn",
       "fieldType": "String",
-      "fieldValidateRules": ["required", "unique"],
-      "javadoc": "角色名称"
+      "javadoc": "角色中文名称"
+    },
+    {
+      "fieldName": "roleStatus",
+      "fieldType": "Status",
+      "fieldTypeJavadoc": "用户和角色和菜单的状态",
+      "fieldValues": "DELETE,NORMAL,DISABLE",
+      "fieldValuesJavadocs": {
+        "DELETE": "删除",
+        "DISABLE": "停用",
+        "NORMAL": "正常"
+      },
+      "javadoc": "角色状态"
+    },
+    {
+      "fieldName": "webOrApp",
+      "fieldType": "WebOrApp",
+      "fieldTypeJavadoc": "枚举类",
+      "fieldValues": "WEB,APP,BOTH",
+      "fieldValuesJavadocs": {
+        "APP": "移动端",
+        "BOTH": "移动端和电脑端",
+        "WEB": "电脑端"
+      },
+      "javadoc": "操作平台"
     }
   ],
   "fluentMethods": true,
-  "javadoc": "角色",
+  "javadoc": "角色表",
   "jpaMetamodelFiltering": false,
   "name": "Role",
   "pagination": "no",

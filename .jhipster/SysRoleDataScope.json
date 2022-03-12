@@ -1,0 +1,38 @@
+{
+  "applications": "*",
+  "changelogDate": "20220312042232",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "sys_role_data_scope",
+  "fields": [
+    {
+      "fieldName": "sysRoleId",
+      "fieldType": "Long",
+      "javadoc": "控制角色ID"
+    },
+    {
+      "fieldName": "ctrlType",
+      "fieldType": "CtrlType",
+      "fieldValues": "COMPANY,OFFICE",
+      "javadoc": "控制类型"
+    },
+    {
+      "fieldName": "ctrlData",
+      "fieldType": "String",
+      "javadoc": "控制数据，如控制类型为公司，那么这里就是公司编号"
+    },
+    {
+      "fieldName": "ctrlPermit",
+      "fieldType": "String",
+      "javadoc": "控制权限"
+    }
+  ],
+  "fluentMethods": true,
+  "javadoc": "角色数据权限表",
+  "jpaMetamodelFiltering": false,
+  "name": "SysRoleDataScope",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [],
+  "service": "no"
+}

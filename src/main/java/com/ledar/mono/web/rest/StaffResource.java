@@ -1,18 +1,37 @@
 package com.ledar.mono.web.rest;
 
+import com.ledar.mono.common.querydsl.OptionalBooleanBuilder;
+import com.ledar.mono.common.response.PaginationUtil;
+import com.ledar.mono.domain.Patient;
+import com.ledar.mono.domain.QStaff;
 import com.ledar.mono.domain.Staff;
+import com.ledar.mono.domain.User;
+import com.ledar.mono.domain.enumeration.Status;
 import com.ledar.mono.repository.StaffRepository;
+import com.ledar.mono.repository.UserRepository;
+import com.ledar.mono.security.SecurityUtils;
 import com.ledar.mono.web.rest.errors.BadRequestAlertException;
-import java.net.URI;
+
 import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+
+import com.querydsl.jpa.impl.JPAQuery;
+import com.querydsl.jpa.impl.JPAQueryFactory;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import liquibase.pro.packaged.T;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -22,6 +41,7 @@ import tech.jhipster.web.util.ResponseUtil;
 /**
  * REST controller for managing {@link com.ledar.mono.domain.Staff}.
  */
+@Tag(name = "员工相关接口")
 @RestController
 @RequestMapping("/api")
 @Transactional
@@ -35,9 +55,14 @@ public class StaffResource {
     private String applicationName;
 
     private final StaffRepository staffRepository;
+    private final JPAQueryFactory queryFactory;
+    private final QStaff qStaff = QStaff.staff;
+    private final UserRepository userRepository;
 
-    public StaffResource(StaffRepository staffRepository) {
+    public StaffResource(StaffRepository staffRepository, UserRepository userRepository,JPAQueryFactory queryFactory) {
         this.staffRepository = staffRepository;
+        this.userRepository = userRepository;
+        this.queryFactory = queryFactory;
     }
 
     /**
@@ -47,19 +72,41 @@ public class StaffResource {
      * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new staff, or with status {@code 400 (Bad Request)} if the staff has already an ID.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
-    @PostMapping("/staff")
-    public ResponseEntity<Staff> createStaff(@Valid @RequestBody Staff staff) throws URISyntaxException {
-        log.debug("REST request to save Staff : {}", staff);
+    @Operation(summary = "新增员工信息",description ="作者：田春晓")
+    @PostMapping("/staff/create")
+    public ResponseEntity<Staff> createStaff(@RequestBody Staff staff) throws URISyntaxException {
+       /* log.debug("REST request to save Staff : {}", staff);
         if (staff.getId() != null) {
             throw new BadRequestAlertException("A new staff cannot already have an ID", ENTITY_NAME, "idexists");
-        }
+        }*/
         Staff result = staffRepository.save(staff);
-        return ResponseEntity
-            .created(new URI("/api/staff/" + result.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, result.getId().toString()))
-            .body(result);
+        return ResponseEntity.ok(result);
+            //.created(new URI("/api/staff/" + result.getId()))
+            //.headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, result.getId().toString()))
+            //.body(result);
     }
 
+    @Operation(summary ="员工信息列表", description="作者：田春晓")
+    @GetMapping("/staff/staffList")
+    public ResponseEntity<List<Staff>> staffList(@RequestParam(required = false) String name,
+                                                      Pageable pageable) {
+        OptionalBooleanBuilder predicate = new OptionalBooleanBuilder()
+            .notEmptyAnd(qStaff.name::contains, name);
+        JPAQuery<Staff> jpaQuery = queryFactory.selectFrom(qStaff)
+            .where(predicate.build())
+            .limit(pageable.getPageSize())
+            .offset(pageable.getOffset());
+        Page<Staff> page = new PageImpl<Staff>(jpaQuery.fetch(), pageable, jpaQuery.fetchCount());
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/products");
+        return ResponseEntity.ok().headers(headers).body(page.getContent());
+    }
+
+    @Operation(summary = "员工详情", description = "作者：田春晓")
+    @GetMapping("/staff/staffById")
+    public ResponseEntity<Staff> getPatientById(@RequestParam Long id) {
+        Optional<Staff> staff = staffRepository.findById(id);
+        return ResponseUtil.wrapOrNotFound(staff);
+    }
     /**
      * {@code PUT  /staff/:id} : Updates an existing staff.
      *
@@ -70,10 +117,11 @@ public class StaffResource {
      * or with status {@code 500 (Internal Server Error)} if the staff couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
-    @PutMapping("/staff/{id}")
+    @Operation(summary = "修改员工信息" , description = "作者：田春晓")
+    @PutMapping("/staff/update")
     public ResponseEntity<Staff> updateStaff(@PathVariable(value = "id", required = false) final Long id, @Valid @RequestBody Staff staff)
         throws URISyntaxException {
-        log.debug("REST request to update Staff : {}, {}", id, staff);
+        /*log.debug("REST request to update Staff : {}, {}", id, staff);
         if (staff.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
@@ -84,7 +132,7 @@ public class StaffResource {
         if (!staffRepository.existsById(id)) {
             throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
         }
-
+*/
         Staff result = staffRepository.save(staff);
         return ResponseEntity
             .ok()
@@ -92,6 +140,30 @@ public class StaffResource {
             .body(result);
     }
 
+    @Operation(summary = "获取当前登录员工详情", description = "作者：田春晓")
+    @GetMapping("/staff/currentStaff")
+    public ResponseEntity<Staff> getCurrentStaff() {
+        Optional<String> currentUserLogin = SecurityUtils.getCurrentUserLogin();
+        System.out.println(currentUserLogin);
+        Optional<Staff> staff = staffRepository.findStaffByLogin(currentUserLogin);
+        //System.out.println(staff);
+        return  ResponseUtil.wrapOrNotFound(staff);
+        //return ResponseEntity.ok().build();
+    }
+
+    @Operation(summary = "删除用户", description = "作者：田春晓")
+    @DeleteMapping("/staff/deletetUser")
+    public ResponseEntity<Void> deleteUser(@RequestParam Long id) {
+        //根据StaffId将userStatus置为DELETE
+        Staff staff =  staffRepository.findById(id).get();
+        Long staffUserId = staff.getUserId();
+        User staffUser = userRepository.findById(staffUserId).get();
+        //queryFactory.selectFrom(qUser).where(qUser.id.eq(patientUserId)).fetchOne();
+        staffUser.setUserStatus(Status.DELETE);
+        userRepository.save(staffUser);
+        //userRepository.deleteById(id);
+        return ResponseEntity.ok().build();
+    }
     /**
      * {@code PATCH  /staff/:id} : Partial updates given fields of an existing staff, field will ignore if it is null
      *

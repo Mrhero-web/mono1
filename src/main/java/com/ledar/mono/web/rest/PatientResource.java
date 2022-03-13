@@ -100,7 +100,7 @@ public class PatientResource {
         @Valid @RequestBody Patient patient
     ) throws URISyntaxException {
         log.debug("REST request to update Patient : {}, {}", id, patient);
-        if (patient.getId() == null) {
+     /*   if (patient.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
         if (!Objects.equals(id, patient.getId())) {
@@ -109,8 +109,7 @@ public class PatientResource {
 
         if (!patientRepository.existsById(id)) {
             throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
-        }
-
+        }*/
         Patient result = patientRepository.save(patient);
         return ResponseEntity
             .ok()
@@ -123,7 +122,7 @@ public class PatientResource {
        Optional<String> currentUserLogin = SecurityUtils.getCurrentUserLogin();
         System.out.println(currentUserLogin);
         Optional<Patient> patient = patientRepository.findPatientByLogin(currentUserLogin);
-        System.out.println(patient);
+        //System.out.println(patient);
         return  ResponseUtil.wrapOrNotFound(patient);
         //return ResponseEntity.ok().build();
     }

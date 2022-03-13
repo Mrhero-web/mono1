@@ -12,7 +12,13 @@ import java.util.List;
 @SuppressWarnings("unused")
 @Repository
 public interface UserRoleRepository extends JpaRepository<UserRole, Long> {
-        @Query("select r.roleCode from UserRole ur left join Role r on ur.roleId = r.id where ur.userId = ?1")
+        //@Query("select r.roleCode from UserRole ur left join Role r on ur.roleId = r.id where ur.userId = ?1")
+         //这俩一样吗？
+        @Query("select r.roleCode from Role r left join UserRole ur on r.id = ur.roleId where ur.userId = ?1 ")
+
+        //必须得起别名
+        //@Query("select Role.roleCode from Role left join UserRole on Role.id = UserRole.roleId where UserRole.userId = ?1 ")
+
         List<String> getAllRoleCodeByUserId(Long userId);
     }
 

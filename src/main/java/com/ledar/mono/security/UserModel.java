@@ -12,7 +12,7 @@ public class UserModel extends User {
     private Status userStatus;
     //private Long employeeId;
 //    private String webOrApp;
-
+    //public UserModel(){}
     public UserModel(String username, String password, Collection<? extends GrantedAuthority> authorities, Long id, Status userStatus) {
         super(username, password, authorities);
         this.id = id;

@@ -1,16 +1,29 @@
 package com.ledar.mono.web.rest;
 
+import com.ledar.mono.common.querydsl.OptionalBooleanBuilder;
+import com.ledar.mono.common.response.PaginationUtil;
 import com.ledar.mono.domain.CourseRecords;
+import com.ledar.mono.domain.Patient;
+import com.ledar.mono.domain.QCourseRecords;
 import com.ledar.mono.repository.CourseRecordsRepository;
 import com.ledar.mono.web.rest.errors.BadRequestAlertException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.time.Instant;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+
+import com.querydsl.jpa.impl.JPAQuery;
+import com.querydsl.jpa.impl.JPAQueryFactory;
+import io.swagger.v3.oas.annotations.Operation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -31,10 +44,13 @@ public class CourseRecordsResource {
 
     @Value("${jhipster.clientApp.name}")
     private String applicationName;
-
+    private final JPAQueryFactory queryFactory;
     private final CourseRecordsRepository courseRecordsRepository;
+    private final QCourseRecords qCourseRecords = QCourseRecords.courseRecords;
 
-    public CourseRecordsResource(CourseRecordsRepository courseRecordsRepository) {
+
+    public CourseRecordsResource(JPAQueryFactory queryFactory, CourseRecordsRepository courseRecordsRepository) {
+        this.queryFactory = queryFactory;
         this.courseRecordsRepository = courseRecordsRepository;
     }
 
@@ -167,6 +183,28 @@ public class CourseRecordsResource {
     public List<CourseRecords> getAllCourseRecords() {
         log.debug("REST request to get all CourseRecords");
         return courseRecordsRepository.findAll();
+    }
+
+    @Operation(summary ="患儿课程记录列表", description="作者：田春晓")
+    @GetMapping("/course-records/courseRrecordsList")
+    public ResponseEntity<List<CourseRecords>>courseRecordsList(@RequestParam(required = false)Instant classDate,
+                                                                @RequestParam(required = false)Instant schoolTime,
+                                                                @RequestParam(required = false)Instant classTime,
+                                                                Pageable pageable) {
+        OptionalBooleanBuilder predicate = new OptionalBooleanBuilder()
+            //Instant是精确到秒，LocalDate 是日期
+            //大于上课日期 & 时间 ，小于下课时间
+            .notEmptyAnd(qCourseRecords.classDate::goe, classDate)
+            .notEmptyAnd(qCourseRecords.schoolTime::goe,schoolTime)
+            .notEmptyAnd(qCourseRecords.classTime::loe,classTime);
+
+        JPAQuery<CourseRecords> jpaQuery = queryFactory.selectFrom(qCourseRecords)
+            .where(predicate.build())
+            .limit(pageable.getPageSize())
+            .offset(pageable.getOffset());
+        Page<CourseRecords> page = new PageImpl<>(jpaQuery.fetch(), pageable, jpaQuery.fetchCount());
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "");
+        return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
 
     /**

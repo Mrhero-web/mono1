@@ -1,16 +1,30 @@
 package com.ledar.mono.web.rest;
 
+import com.ledar.mono.common.querydsl.OptionalBooleanBuilder;
+import com.ledar.mono.common.response.PaginationUtil;
+import com.ledar.mono.domain.CourseRecords;
 import com.ledar.mono.domain.PastCourseRecords;
+import com.ledar.mono.domain.QCourseRecords;
+import com.ledar.mono.domain.QPastCourseRecords;
 import com.ledar.mono.repository.PastCourseRecordsRepository;
 import com.ledar.mono.web.rest.errors.BadRequestAlertException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.time.Instant;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+
+import com.querydsl.jpa.impl.JPAQuery;
+import com.querydsl.jpa.impl.JPAQueryFactory;
+import io.swagger.v3.oas.annotations.Operation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -33,11 +47,34 @@ public class PastCourseRecordsResource {
     private String applicationName;
 
     private final PastCourseRecordsRepository pastCourseRecordsRepository;
-
-    public PastCourseRecordsResource(PastCourseRecordsRepository pastCourseRecordsRepository) {
+    private final JPAQueryFactory queryFactory;
+    private final QPastCourseRecords qPastCourseRecords = QPastCourseRecords.pastCourseRecords;
+    public PastCourseRecordsResource(PastCourseRecordsRepository pastCourseRecordsRepository, JPAQueryFactory queryFactory) {
         this.pastCourseRecordsRepository = pastCourseRecordsRepository;
+        this.queryFactory = queryFactory;
     }
 
+    @Operation(summary ="患儿课程历史记录列表", description="作者：田春晓")
+    @GetMapping("/past-course-records/pastCourseRrecordsList")
+    public ResponseEntity<List<PastCourseRecords>> pastCourseRecordsList(@RequestParam(required = false) Instant classDate,
+                                                                @RequestParam(required = false)Instant schoolTime,
+                                                                @RequestParam(required = false)Instant classTime,
+                                                                Pageable pageable) {
+        OptionalBooleanBuilder predicate = new OptionalBooleanBuilder()
+            //Instant是精确到秒，LocalDate 是日期
+            //大于上课日期 & 时间 ，小于下课时间
+            .notEmptyAnd(qPastCourseRecords.classDate::goe, classDate)
+            .notEmptyAnd(qPastCourseRecords.schoolTime::goe,schoolTime)
+            .notEmptyAnd(qPastCourseRecords.classTime::loe,classTime);
+
+        JPAQuery<PastCourseRecords> jpaQuery = queryFactory.selectFrom(qPastCourseRecords)
+            .where(predicate.build())
+            .limit(pageable.getPageSize())
+            .offset(pageable.getOffset());
+        Page<PastCourseRecords> page = new PageImpl<>(jpaQuery.fetch(), pageable, jpaQuery.fetchCount());
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "");
+        return ResponseEntity.ok().headers(headers).body(page.getContent());
+    }
     /**
      * {@code POST  /past-course-records} : Create a new pastCourseRecords.
      *

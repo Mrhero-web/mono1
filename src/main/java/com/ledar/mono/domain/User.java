@@ -44,10 +44,12 @@ public class User implements Serializable {
     /**
      * 状态
      */
+    @Enumerated(EnumType.STRING)
     @Schema(description = "状态", required = true)
     @NotNull
     @Column(name = "user_Status", nullable = false)
     private Status userStatus;
+
     public User userStatus(Status userStatus) {
         this.setUserStatus(userStatus);
         return this;

@@ -5,6 +5,8 @@ import com.ledar.mono.common.response.PaginationUtil;
 import com.ledar.mono.domain.Patient;
 import com.ledar.mono.domain.QPatient;
 import com.ledar.mono.domain.QUser;
+import com.ledar.mono.domain.User;
+import com.ledar.mono.domain.enumeration.Status;
 import com.ledar.mono.repository.PatientRepository;
 import com.ledar.mono.repository.UserRepository;
 import com.ledar.mono.security.SecurityUtils;
@@ -63,15 +65,16 @@ public class PatientResource {
         this.queryFactory = queryFactory;
     }
 
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_NURSE')")
     @Operation(summary ="新增患者信息",description = "作者：田春晓")
     @PostMapping("/patients/create")
     public ResponseEntity<Patient> createPatient(@RequestBody Patient patient) throws URISyntaxException {
         Patient result = patientRepository.save(patient);
         return ResponseEntity.ok(result);
+        //新增账号密码，
     }
     @Operation(summary ="患者信息列表", description="作者：田春晓")
-    @GetMapping("/patients/patientslist")
+    @GetMapping("/patients/patientsList")
     public ResponseEntity<List<Patient>> patientsList(@RequestParam(required = false) String name,
                                                       Pageable pageable) {
         OptionalBooleanBuilder predicate = new OptionalBooleanBuilder()
@@ -81,12 +84,11 @@ public class PatientResource {
             .limit(pageable.getPageSize())
             .offset(pageable.getOffset());
         Page<Patient> page = new PageImpl<Patient>(jpaQuery.fetch(), pageable, jpaQuery.fetchCount());
-        //HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "");
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/products");
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
     @Operation(summary = "患者详情", description = "作者：田春晓")
-    @GetMapping("/patients/PatientById")
+    @GetMapping("/patients/patientById")
     public ResponseEntity<Patient> getPatientById(@RequestParam Long id) {
         Optional<Patient> Patient = patientRepository.findById(id);
         return ResponseUtil.wrapOrNotFound(Patient);
@@ -118,10 +120,27 @@ public class PatientResource {
     @Operation(summary = "获取当前登录患者详情", description = "作者：田春晓")
     @GetMapping("/patients/currentPatient")
     public ResponseEntity<Patient> getCurrentPatient() {
-        //SecurityUtils security = new SecurityUtils();
        Optional<String> currentUserLogin = SecurityUtils.getCurrentUserLogin();
-        Optional<Patient> Patient = patientRepository.findPatientByLogin(currentUserLogin);
-        return  ResponseUtil.wrapOrNotFound(Patient);
+        System.out.println(currentUserLogin);
+        Optional<Patient> patient = patientRepository.findPatientByLogin(currentUserLogin);
+        System.out.println(patient);
+        return  ResponseUtil.wrapOrNotFound(patient);
+        //return ResponseEntity.ok().build();
+    }
+
+    @DeleteMapping("/patients/deletetUser")
+    @Operation(summary = "删除用户", description = "作者：田春晓")
+
+    public ResponseEntity<Void> deleteUser(@RequestParam Long id) {
+        Patient patient =  patientRepository.findById(id).get();
+        Long patientUserId = patient.getUserId();
+
+        User patientUser = userRepository.findById(patientUserId).get();
+        //queryFactory.selectFrom(qUser).where(qUser.id.eq(patientUserId)).fetchOne();
+        patientUser.setUserStatus(Status.DELETE);
+        userRepository.save(patientUser);
+        //userRepository.deleteById(id);
+        return ResponseEntity.ok().build();
     }
    /* @Operation(summary = "申请取消排程" , description="作者：田春晓")
     @PutMapping("/patients/cancel")
@@ -314,7 +333,7 @@ public class PatientResource {
      * @param id the id of the patient to delete.
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
-/*    @DeleteMapping("/patients/{id}")
+    /*@DeleteMapping("/patients/{id}")
     public ResponseEntity<Void> deletePatient(@PathVariable Long id) {
         log.debug("REST request to delete Patient : {}", id);
         patientRepository.deleteById(id);

@@ -13,4 +13,8 @@ import java.util.Optional;
 @Repository
 public interface StaffRepository extends JpaRepository<Staff, Long> {
     Optional<Staff> findStaffByLogin(Optional<String> currentUserLogin);
+//@Query("select staff.userId from staff where staff.id =?1")
+//@Query("select r.roleCode from Role r left join UserRole ur on r.id = ur.roleId where ur.userId = ?1 ")
+
+   // Long findUserIdById(Long staffId);
 }

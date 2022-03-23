@@ -2,20 +2,19 @@ package com.ledar.mono.web.rest;
 
 import com.ledar.mono.common.querydsl.OptionalBooleanBuilder;
 import com.ledar.mono.common.response.PaginationUtil;
-import com.ledar.mono.domain.Patient;
-import com.ledar.mono.domain.QPatient;
-import com.ledar.mono.domain.QUser;
-import com.ledar.mono.domain.User;
+import com.ledar.mono.domain.*;
+import com.ledar.mono.domain.enumeration.RoleName;
 import com.ledar.mono.domain.enumeration.Status;
 import com.ledar.mono.repository.PatientRepository;
+import com.ledar.mono.repository.RoleRepository;
 import com.ledar.mono.repository.UserRepository;
+import com.ledar.mono.repository.UserRoleRepository;
 import com.ledar.mono.security.SecurityUtils;
 import com.ledar.mono.web.rest.errors.BadRequestAlertException;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import liquibase.pro.packaged.id;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -31,11 +30,11 @@ import tech.jhipster.web.util.HeaderUtil;
 import tech.jhipster.web.util.ResponseUtil;
 
 import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
 import java.net.URISyntaxException;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
+
+//import static org.springframework.security.config.annotation.web.messaging.MessageSecurityMetadataSourceRegistry.hasRole;
 
 /**
  * REST controller for managing {@link com.ledar.mono.domain.Patient}.
@@ -54,45 +53,52 @@ public class PatientResource {
     private String applicationName;
     private final PatientRepository patientRepository;
     private final UserRepository userRepository;
+    private final RoleRepository roleRepository;
+    private final UserRoleRepository userRoleRepository;
     private final JPAQueryFactory queryFactory;
+
     private final QPatient qPatient = QPatient.patient;
     private final QUser qUser = QUser.user;
+    private final UserService userService;
 
 
-    public PatientResource(PatientRepository patientRepository, UserRepository userRepository, JPAQueryFactory queryFactory) {
+    public PatientResource(PatientRepository patientRepository, UserRepository userRepository, RoleRepository roleRepository, UserRoleRepository userRoleRepository, JPAQueryFactory queryFactory, UserService userService) {
         this.patientRepository = patientRepository;
         this.userRepository = userRepository;
+        this.roleRepository = roleRepository;
+        this.userRoleRepository = userRoleRepository;
         this.queryFactory = queryFactory;
+        this.userService = userService;
     }
-
-    @PreAuthorize("hasRole('ROLE_NURSE')")
-    @Operation(summary ="新增患者信息",description = "作者：田春晓")
+/*
+* 医生或者护士录入患者信息，默认密码123456，patient、staff表不存password，只存login
+* */
+    //@PreAuthorize("hasRole('ROLE_NURSE') or hasRole('ROLE_DOCTOR')")
+    @Operation(summary ="新增患者信息以及账号",description = "作者：田春晓")
     @PostMapping("/patients/create")
     public ResponseEntity<Patient> createPatient(@RequestBody Patient patient) throws URISyntaxException {
+        //先判断传入的login是否已经存在
+        Optional<User> userAlreadyExists = userRepository.findOneByLogin(patient.getLogin());
+        if(userAlreadyExists.isPresent()) {
+            throw new BadRequestAlertException("登录账号已存在", "", "添加失败。");
+        }
+        //1、先新增一条User数据
+        User newUser = userService.createUser(patient.getLogin());
+        //把新增的userId赋给patient表的userId字段
+        patient.setUserId(newUser.getId());
+        //2、再新增一条patient数据
         Patient result = patientRepository.save(patient);
+        UserRole newUserRole = new UserRole();
+        newUserRole.setUserId(newUser.getId());
+        //通过 roleName 获取相应的 role 对象
+        Optional<Role> role = roleRepository.findByRoleNameInEn(RoleName.PATIENT);
+        //把获取到的roleId赋值给roleId
+        newUserRole.setRoleId(role.get().getId());
+        //3、最后新增一条UserRole数据，
+        userRoleRepository.save(newUserRole);
         return ResponseEntity.ok(result);
-        //新增账号密码，
     }
-    @Operation(summary ="患者信息列表", description="作者：田春晓")
-    @GetMapping("/patients/patientsList")
-    public ResponseEntity<List<Patient>> patientsList(@RequestParam(required = false) String name,
-                                                      Pageable pageable) {
-        OptionalBooleanBuilder predicate = new OptionalBooleanBuilder()
-            .notEmptyAnd(qPatient.name::contains, name);
-        JPAQuery<Patient> jpaQuery = queryFactory.selectFrom(qPatient)
-            .where(predicate.build())
-            .limit(pageable.getPageSize())
-            .offset(pageable.getOffset());
-        Page<Patient> page = new PageImpl<Patient>(jpaQuery.fetch(), pageable, jpaQuery.fetchCount());
-        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/products");
-        return ResponseEntity.ok().headers(headers).body(page.getContent());
-    }
-    @Operation(summary = "患者详情", description = "作者：田春晓")
-    @GetMapping("/patients/patientById")
-    public ResponseEntity<Patient> getPatientById(@RequestParam Long id) {
-        Optional<Patient> Patient = patientRepository.findById(id);
-        return ResponseUtil.wrapOrNotFound(Patient);
-    }
+
     @Operation(summary="修改病人信息",description="作者：田春晓")
     @PutMapping("/patients/update")
     public ResponseEntity<Patient> updatePatient(
@@ -116,29 +122,46 @@ public class PatientResource {
             .headers(HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, patient.getId().toString()))
             .body(result);
     }
+    @Operation(summary ="患者信息列表", description="作者：田春晓")
+    @GetMapping("/patients/patientsList")
+    public ResponseEntity<List<Patient>> patientsList(@RequestParam(required = false) String name,
+                                                      Pageable pageable) {
+        OptionalBooleanBuilder predicate = new OptionalBooleanBuilder()
+            .notEmptyAnd(qPatient.name::contains, name);
+        JPAQuery<Patient> jpaQuery = queryFactory.selectFrom(qPatient)
+            .where(predicate.build())
+            .limit(pageable.getPageSize())
+            .offset(pageable.getOffset());
+        Page<Patient> page = new PageImpl<Patient>(jpaQuery.fetch(), pageable, jpaQuery.fetchCount());
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/products");
+        return ResponseEntity.ok().headers(headers).body(page.getContent());
+    }
+    @Operation(summary = "患者详情", description = "作者：田春晓")
+    @GetMapping("/patients/patientById")
+    public ResponseEntity<Patient> getPatientById(@RequestParam Long id) {
+        Optional<Patient> Patient = patientRepository.findById(id);
+        return ResponseUtil.wrapOrNotFound(Patient);
+    }
+
+    //@PreAuthorize("hasRole('ROLE_PATIENT')")
     @Operation(summary = "获取当前登录患者详情", description = "作者：田春晓")
     @GetMapping("/patients/currentPatient")
     public ResponseEntity<Patient> getCurrentPatient() {
        Optional<String> currentUserLogin = SecurityUtils.getCurrentUserLogin();
         System.out.println(currentUserLogin);
         Optional<Patient> patient = patientRepository.findPatientByLogin(currentUserLogin);
-        //System.out.println(patient);
+        System.out.println(patient);
         return  ResponseUtil.wrapOrNotFound(patient);
-        //return ResponseEntity.ok().build();
+       // return ResponseEntity.ok().build();
     }
 
-    @DeleteMapping("/patients/deletetUser")
-    @Operation(summary = "删除用户", description = "作者：田春晓")
+    @DeleteMapping("/patients/deletetPatientUser")
+    @Operation(summary = "删除患者用户", description = "作者：田春晓")
 
     public ResponseEntity<Void> deleteUser(@RequestParam Long id) {
         Patient patient =  patientRepository.findById(id).get();
         Long patientUserId = patient.getUserId();
-
-        User patientUser = userRepository.findById(patientUserId).get();
-        //queryFactory.selectFrom(qUser).where(qUser.id.eq(patientUserId)).fetchOne();
-        patientUser.setUserStatus(Status.DELETE);
-        userRepository.save(patientUser);
-        //userRepository.deleteById(id);
+        userService.deleteUser(patientUserId);
         return ResponseEntity.ok().build();
     }
    /* @Operation(summary = "申请取消排程" , description="作者：田春晓")

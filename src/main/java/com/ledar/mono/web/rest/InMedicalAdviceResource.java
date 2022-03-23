@@ -8,6 +8,8 @@ import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+
+import io.swagger.v3.oas.annotations.Operation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -45,7 +47,8 @@ public class InMedicalAdviceResource {
      * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new inMedicalAdvice, or with status {@code 400 (Bad Request)} if the inMedicalAdvice has already an ID.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
-    @PostMapping("/in-medical-advices")
+    @Operation(summary="录入医嘱",description="作者：田春晓")
+    @PostMapping("/in-medical-advices/create")
     public ResponseEntity<InMedicalAdvice> createInMedicalAdvice(@RequestBody InMedicalAdvice inMedicalAdvice) throws URISyntaxException {
         log.debug("REST request to save InMedicalAdvice : {}", inMedicalAdvice);
         if (inMedicalAdvice.getId() != null) {

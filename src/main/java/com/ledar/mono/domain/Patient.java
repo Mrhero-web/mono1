@@ -30,7 +30,7 @@ public class Patient implements Serializable {
      * 用户编号
      */
     @Schema(description = "用户编号", required = true)
-    @NotNull
+    //@NotNull
     @Column(name = "user_id", nullable = false)
     private Long userId;
 

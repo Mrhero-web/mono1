@@ -5,19 +5,14 @@ import com.ledar.mono.common.response.PaginationUtil;
 import com.ledar.mono.domain.*;
 import com.ledar.mono.domain.enumeration.RoleName;
 import com.ledar.mono.domain.enumeration.Status;
-import com.ledar.mono.repository.RoleRepository;
-import com.ledar.mono.repository.StaffRepository;
-import com.ledar.mono.repository.UserRepository;
-import com.ledar.mono.repository.UserRoleRepository;
+import com.ledar.mono.repository.*;
 import com.ledar.mono.security.SecurityUtils;
 import com.ledar.mono.web.rest.errors.BadRequestAlertException;
 
 import java.net.URISyntaxException;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
 
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -54,6 +49,8 @@ public class StaffResource {
     private String applicationName;
 
     private final StaffRepository staffRepository;
+    private final DepartmentRepository departmentRepository;
+
     private final JPAQueryFactory queryFactory;
     private final QStaff qStaff = QStaff.staff;
     private final UserRepository userRepository;
@@ -62,8 +59,9 @@ public class StaffResource {
     private final UserRoleRepository userRoleRepository;
 
 
-    public StaffResource(StaffRepository staffRepository, UserRepository userRepository, JPAQueryFactory queryFactory, UserService userService, RoleRepository roleRepository, UserRoleRepository userRoleRepository) {
+    public StaffResource(StaffRepository staffRepository, DepartmentRepository departmentRepository, UserRepository userRepository, JPAQueryFactory queryFactory, UserService userService, RoleRepository roleRepository, UserRoleRepository userRoleRepository) {
         this.staffRepository = staffRepository;
+        this.departmentRepository = departmentRepository;
         this.userRepository = userRepository;
         this.queryFactory = queryFactory;
         this.userService = userService;
@@ -101,14 +99,21 @@ public class StaffResource {
         }
 
 
-
-
     @Operation(summary ="员工信息列表", description="作者：田春晓")
     @GetMapping("/staff/staffList")
     public ResponseEntity<List<Staff>> staffList(@RequestParam(required = false) String name,
-                                                      Pageable pageable) {
+                                                 @RequestParam(required = false) Long staffId,
+                                                 @RequestParam(required = false) Integer groupId,
+                                                 @RequestParam(required = false) String departmentName,
+                                                 Pageable pageable) {
+        System.out.println(departmentName);
+        Integer departmentId = departmentRepository.findDepartmentIdBydName(departmentName);
+        System.out.println(departmentId);
         OptionalBooleanBuilder predicate = new OptionalBooleanBuilder()
-            .notEmptyAnd(qStaff.name::contains, name);
+            .notEmptyAnd(qStaff.groupId ::eq, groupId)
+            .notEmptyAnd(qStaff.departmentNum::eq, departmentId)
+            .notEmptyAnd(qStaff.name::eq, name)
+            .notEmptyAnd(qStaff.id::eq, staffId);
         JPAQuery<Staff> jpaQuery = queryFactory.selectFrom(qStaff)
             .where(predicate.build())
             .limit(pageable.getPageSize())
@@ -117,6 +122,7 @@ public class StaffResource {
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/products");
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
+
 
     @Operation(summary = "员工详情", description = "作者：田春晓")
     @GetMapping("/staff/staffById")

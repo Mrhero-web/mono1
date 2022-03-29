@@ -4,11 +4,7 @@ import com.ledar.mono.common.querydsl.OptionalBooleanBuilder;
 import com.ledar.mono.common.response.PaginationUtil;
 import com.ledar.mono.domain.*;
 import com.ledar.mono.domain.enumeration.RoleName;
-import com.ledar.mono.domain.enumeration.Status;
-import com.ledar.mono.repository.PatientRepository;
-import com.ledar.mono.repository.RoleRepository;
-import com.ledar.mono.repository.UserRepository;
-import com.ledar.mono.repository.UserRoleRepository;
+import com.ledar.mono.repository.*;
 import com.ledar.mono.security.SecurityUtils;
 import com.ledar.mono.web.rest.errors.BadRequestAlertException;
 import com.querydsl.jpa.impl.JPAQuery;
@@ -23,7 +19,6 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import tech.jhipster.web.util.HeaderUtil;
@@ -52,6 +47,7 @@ public class PatientResource {
     @Value("${jhipster.clientApp.name}")
     private String applicationName;
     private final PatientRepository patientRepository;
+    private final DepartmentRepository departmentRepository;
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final UserRoleRepository userRoleRepository;
@@ -62,8 +58,9 @@ public class PatientResource {
     private final UserService userService;
 
 
-    public PatientResource(PatientRepository patientRepository, UserRepository userRepository, RoleRepository roleRepository, UserRoleRepository userRoleRepository, JPAQueryFactory queryFactory, UserService userService) {
+    public PatientResource(PatientRepository patientRepository, DepartmentRepository departmentRepository, UserRepository userRepository, RoleRepository roleRepository, UserRoleRepository userRoleRepository, JPAQueryFactory queryFactory, UserService userService) {
         this.patientRepository = patientRepository;
+        this.departmentRepository = departmentRepository;
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.userRoleRepository = userRoleRepository;
@@ -122,12 +119,28 @@ public class PatientResource {
             .headers(HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, patient.getId().toString()))
             .body(result);
     }
+
     @Operation(summary ="患者信息列表", description="作者：田春晓")
     @GetMapping("/patients/patientsList")
     public ResponseEntity<List<Patient>> patientsList(@RequestParam(required = false) String name,
-                                                      Pageable pageable) {
+                                                      @RequestParam(required = false) String departmentName,
+                                                      @RequestParam(required = false) Long hospitalId,
+                                                      Pageable pageable) throws NullPointerException{
+        System.out.println(departmentName);
+        Integer departmentId = (departmentRepository.findDepartmentIdBydName(departmentName));
+        System.out.println(departmentId);
+        Long departmentId2 = null;
+        if(departmentId == null){
+            departmentId2 = null;
+            System.out.println(departmentId2);
+        }else{
+            departmentId2 = Long.parseLong(String.valueOf(departmentId));
+            System.out.println(departmentId2);
+        }
         OptionalBooleanBuilder predicate = new OptionalBooleanBuilder()
-            .notEmptyAnd(qPatient.name::contains, name);
+            .notEmptyAnd(qPatient.name::contains, name)
+            .notEmptyAnd(qPatient.currentDepartmentId::eq, departmentId2)
+            .notEmptyAnd(qPatient.hospitalId::eq, hospitalId);
         JPAQuery<Patient> jpaQuery = queryFactory.selectFrom(qPatient)
             .where(predicate.build())
             .limit(pageable.getPageSize())
@@ -139,8 +152,8 @@ public class PatientResource {
     @Operation(summary = "患者详情", description = "作者：田春晓")
     @GetMapping("/patients/patientById")
     public ResponseEntity<Patient> getPatientById(@RequestParam Long id) {
-        Optional<Patient> Patient = patientRepository.findById(id);
-        return ResponseUtil.wrapOrNotFound(Patient);
+        Optional<Patient> patient = patientRepository.findById(id);
+        return ResponseUtil.wrapOrNotFound(patient);
     }
 
     //@PreAuthorize("hasRole('ROLE_PATIENT')")

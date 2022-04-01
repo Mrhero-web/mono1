@@ -77,19 +77,24 @@ public class StaffResource {
         @PostMapping("/staff/create")
         public ResponseEntity<Staff> createStaff(@RequestBody Staff staff) throws URISyntaxException {
             //先判断传入的login是否已经存在
-            Optional<User> userAlreadyExists = userRepository.findOneByLogin(staff.getLogin());
-            if(userAlreadyExists.isPresent()) {
+            Optional<User> userAlreadyExistsByLogin = userRepository.findOneByLoginAndUserStatusIsNot(staff.getLogin(),Status.DELETE);
+            Optional<Staff> staffAlreadyExistsByIdNum = staffRepository.findOneByIdNum(staff.getIdNum());
+            Optional<User> staffAlreadyExistsByIdNumAndUserNotDeleted = userRepository.findByIdAndUserStatusIsNot(staffAlreadyExistsByIdNum.get().getUserId(),Status.DELETE);
+            if(userAlreadyExistsByLogin.isPresent()) {
                 throw new BadRequestAlertException("登录账号已存在", "", "添加失败。");
+            }
+            if(staffAlreadyExistsByIdNum.isPresent() && staffAlreadyExistsByIdNumAndUserNotDeleted.isPresent()) {
+                throw new BadRequestAlertException("身份证号已存在", "", "添加失败。");
             }
             //1、先新增一条User数据
             User newUser = userService.createUser(staff.getLogin());
             //把新增的userId赋给staff表的userId字段
             staff.setUserId(newUser.getId());
-            //2、再新增一条patient数据
+            //2、再新增一条staff数据
             Staff result = staffRepository.save(staff);
             UserRole newUserRole = new UserRole();
             newUserRole.setUserId(newUser.getId());
-            //通过 roleName 获取相应的 role 对象
+            //通过 roleName 获取相应的 role 对象，初始角色默认为医生，管理员可以修改
             Optional<Role> role = roleRepository.findByRoleNameInEn(RoleName.DOCTOR);
             //把获取到的roleId赋值给roleId
             newUserRole.setRoleId(role.get().getId());
@@ -134,7 +139,7 @@ public class StaffResource {
     /**
      * {@code PUT  /staff/:id} : Updates an existing staff.
      *
-     * @param id the id of the staff to save.
+     * //@param id the id of the staff to save.
      * @param staff the staff to update.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated staff,
      * or with status {@code 400 (Bad Request)} if the staff is not valid,
@@ -143,7 +148,8 @@ public class StaffResource {
      */
     @Operation(summary = "修改员工信息" , description = "作者：田春晓")
     @PutMapping("/staff/update")
-    public ResponseEntity<Staff> updateStaff(@PathVariable(value = "id", required = false) final Long id, @Valid @RequestBody Staff staff)
+    public ResponseEntity<Staff> updateStaff(//@PathVariable(value = "id", required = false) final Long id,
+                                             @Valid @RequestBody Staff staff)
         throws URISyntaxException {
         /*log.debug("REST request to update Staff : {}, {}", id, staff);
         if (staff.getId() == null) {
@@ -157,6 +163,17 @@ public class StaffResource {
             throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
         }
 */
+        if(staff.getId() == null) {
+            throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
+        }
+        //相应数据是否已经创建，即是否能在表中找到相应id的数据
+        if (!staffRepository.existsById(staff.getId())) {
+            throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
+        }
+        Staff oldStaff = staffRepository.findById(staff.getId()).get();
+        staff.setUserId(oldStaff.getUserId());
+        staff.setLogin(oldStaff.getLogin());
+        staff.setPassword(oldStaff.getPassword());
         Staff result = staffRepository.save(staff);
         return ResponseEntity
             .ok()
@@ -164,7 +181,7 @@ public class StaffResource {
             .body(result);
     }
 
-    @PreAuthorize("hasRole('ROLE_STAFF')")
+    //@PreAuthorize("hasRole('ROLE_DOCTOR')")
     @Operation(summary = "获取当前登录员工详情", description = "作者：田春晓")
     @GetMapping("/staff/currentStaff")
     public ResponseEntity<Void> getCurrentStaff() {

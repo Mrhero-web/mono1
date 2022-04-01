@@ -1,0 +1,9 @@
+INSERT INTO `sys_role` (`id`, `role_code`, `role_name_in_cn`, `role_name_in_en`, `role_status`, `web_or_app`) VALUES (1, 'ROLE_TEACHER', '教师', 'TEACHER', 'NORMAL', 'BOTH');
+INSERT INTO `sys_role` (`id`, `role_code`, `role_name_in_cn`, `role_name_in_en`, `role_status`, `web_or_app`) VALUES (2, 'ROLE_BOSS', '院领导', 'BOSS', 'NORMAL', 'BOTH');
+INSERT INTO `sys_role` (`id`, `role_code`, `role_name_in_cn`, `role_name_in_en`, `role_status`, `web_or_app`) VALUES (3, 'ROLE_NURSE', '护士', 'NURSE', 'NORMAL', 'BOTH');
+INSERT INTO `sys_role` (`id`, `role_code`, `role_name_in_cn`, `role_name_in_en`, `role_status`, `web_or_app`) VALUES (4, 'ROLE_PATIENT', '病患', 'PATIENT', 'NORMAL', 'BOTH');
+INSERT INTO `sys_role` (`id`, `role_code`, `role_name_in_cn`, `role_name_in_en`, `role_status`, `web_or_app`) VALUES (5, 'ROLE_ADMINISTRATOR', '管理员', 'ADMINISTRATOR', 'NORMAL', 'BOTH');
+INSERT INTO `sys_role` (`id`, `role_code`, `role_name_in_cn`, `role_name_in_en`, `role_status`, `web_or_app`) VALUES (6, 'ROLE_DOCTOR', '医生', 'DOCTOR', 'NORMAL', 'BOTH');
+INSERT INTO `sys_role` (`id`, `role_code`, `role_name_in_cn`, `role_name_in_en`, `role_status`, `web_or_app`) VALUES (7, 'ROLE_THERAPIST', '治疗师', 'THERAPIST', 'NORMAL', 'BOTH');
+INSERT INTO `sys_role` (`id`, `role_code`, `role_name_in_cn`, `role_name_in_en`, `role_status`, `web_or_app`) VALUES (8, 'ROLE_GROUPLEADER', '组长', 'GROUPLEADER', 'NORMAL', 'BOTH');
+INSERT INTO `sys_role` (`id`, `role_code`, `role_name_in_cn`, `role_name_in_en`, `role_status`, `web_or_app`) VALUES (9, 'ROLE_DEPARTMENTMANAGER', '科室主任', 'DEPARTMENTMANAGER', 'NORMAL', 'BOTH');

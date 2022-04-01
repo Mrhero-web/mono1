@@ -1,6 +1,7 @@
 package com.ledar.mono.repository;
 
 import com.ledar.mono.domain.Staff;
+import com.ledar.mono.domain.enumeration.Status;
 import org.springframework.data.jpa.repository.*;
 import org.springframework.stereotype.Repository;
 
@@ -13,6 +14,10 @@ import java.util.Optional;
 @Repository
 public interface StaffRepository extends JpaRepository<Staff, Long> {
     Optional<Staff> findStaffByLogin(Optional<String> currentUserLogin);
+
+    Optional<Staff> findOneByIdNum(String idNum);
+
+    //Optional<Staff> findOneByIdNumAndStatusIsNot(String , Status );
 //@Query("select staff.userId from staff where staff.id =?1")
 //@Query("select r.roleCode from Role r left join UserRole ur on r.id = ur.roleId where ur.userId = ?1 ")
 

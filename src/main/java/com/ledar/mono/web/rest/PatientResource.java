@@ -28,6 +28,7 @@ import javax.validation.Valid;
 import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 //import static org.springframework.security.config.annotation.web.messaging.MessageSecurityMetadataSourceRegistry.hasRole;
 
@@ -99,10 +100,10 @@ public class PatientResource {
     @Operation(summary="修改病人信息",description="作者：田春晓")
     @PutMapping("/patients/update")
     public ResponseEntity<Patient> updatePatient(
-        @PathVariable(value = "id", required = false) final Long id,
+//        @PathVariable(value = "id", required = false) final Long id,
         @Valid @RequestBody Patient patient
     ) throws URISyntaxException {
-        log.debug("REST request to update Patient : {}, {}", id, patient);
+        log.debug("REST request to update Patient : {}, {}",  patient);
      /*   if (patient.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
@@ -113,6 +114,40 @@ public class PatientResource {
         if (!patientRepository.existsById(id)) {
             throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
         }*/
+        //id不能为空
+        if (patient.getId() == null) {
+            throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
+        }
+        //相应id的数据是否应经创建，即是否能在表中找到相应id的数据
+        if (!patientRepository.existsById(patient.getId())) {
+            throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
+        }
+
+        //确保该治疗项目以外的其他治疗项目的名字跟传入名字不一致
+//        if (
+//            treatmentProgramRepository
+//                .findAllByIdNot(treatmentProgram.getId())
+//                .stream()
+//                .map(TreatmentProgram::getCureName)
+//                .collect(Collectors.toList())
+//                .contains(treatmentProgram.getCureName())
+//        ) {
+//            throw new IllegalArgumentException("已有同样名称的治疗项目，请重新输入！");
+//        }
+        Patient oldPatient = patientRepository.findById(patient.getId()).get();
+        patient.setUserId(oldPatient.getUserId());
+        patient.setLogin(oldPatient.getLogin());
+        patient.setPassword(oldPatient.getPassword());
+
+//        oldPatient.setName(patient.getName());
+//        oldPatient.setAge(patient.getAge());
+//        oldPatient.setGender(patient.getGender());
+//        oldPatient.setBirthday(patient.getBirthday());
+//        oldPatient.setIdNum(patient.getIdNum());
+//        oldPatient.setPhoneNumber(patient.getPhoneNumber());
+//        oldPatient.setAdmissionDate(patient.getAdmissionDate());
+
+
         Patient result = patientRepository.save(patient);
         return ResponseEntity
             .ok()

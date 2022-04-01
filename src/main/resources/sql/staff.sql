@@ -1,0 +1,1 @@
+INSERT INTO `staff` (`id`, `address`, `birthday`, `department_num`, `education`, `from_hospital_system`, `gender`, `group_id`, `id_num`, `login`, `major`, `name`, `nationality`, `password`, `phone_num`, `political_affiliation`, `s_status`, `title`, `user_id`) VALUES (1, '', NULL, 0, '', b'1', '男', 0, '0000000000000000000001', 'staff01', '', '小小龙', '', '', '', '', NULL, '', 2);

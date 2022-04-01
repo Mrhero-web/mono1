@@ -5,6 +5,7 @@ import java.util.Collection;
 import com.ledar.mono.domain.enumeration.Status;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
+import org.springframework.stereotype.Component;
 
 public class UserModel extends User {
 
@@ -21,6 +22,7 @@ public class UserModel extends User {
        // this.employeeId = employeeId;
 //        this.webOrApp = webOrApp;
     }
+//    public UserModel(){}
 
     public Long getId() {
         return id;

@@ -2,10 +2,10 @@ package com.ledar.mono.web.rest;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ledar.mono.domain.User;
-import com.ledar.mono.domain.UserRole;
 import com.ledar.mono.domain.enumeration.Status;
 import com.ledar.mono.repository.UserRepository;
 import com.ledar.mono.repository.UserRoleRepository;
+import com.ledar.mono.security.UserModel;
 import com.ledar.mono.security.jwt.JWTFilter;
 import com.ledar.mono.security.jwt.TokenProvider;
 import com.ledar.mono.web.rest.errors.BadRequestAlertException;
@@ -22,7 +22,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -43,14 +45,16 @@ public class UserJWTController {
         this.userRepository = userRepository;
         this.authenticationManagerBuilder = authenticationManagerBuilder;
         this.userRoleRepository = userRoleRepository;
+
     }
 
     @PostMapping("/authenticate")
     @Operation(summary = "登录")
-    public ResponseEntity<JWTToken> authorize(@Valid @RequestBody LoginVM loginVM) {
+    public ResponseEntity<Object> authorize(@Valid @RequestBody LoginVM loginVM) {
         Optional<User> user = userRepository.findOneByLogin(loginVM.getUsername());
         Long userId = user.get().getId();
         List<Status> roleStatusByUserId = userRoleRepository.getAllRoleStatusByUserId(userId);
+        List<String> roleByUserId = userRoleRepository.getAllRoleCodeByUserId(userId);
         System.out.println(roleStatusByUserId);
         if(!roleStatusByUserId.contains(Status.NORMAL)){
             throw new BadRequestAlertException("当前您想要登录的账号对应的角色不可用","","登录失败");
@@ -70,9 +74,15 @@ public class UserJWTController {
         Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String jwt = tokenProvider.createToken(authentication, loginVM.isRememberMe());
+       // UserModel userModel = new UserModel().createSpringSecurityUser(user);
+        Map<String, Object> authInfo = new HashMap<String, Object>(2) {{
+            put("token",new JWTToken(jwt));
+            put("role", roleByUserId);
+        }};
+
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add(JWTFilter.AUTHORIZATION_HEADER, "Bearer " + jwt);
-        return new ResponseEntity<>(new JWTToken(jwt), httpHeaders, HttpStatus.OK);
+        return new ResponseEntity<>(authInfo, httpHeaders, HttpStatus.OK);
     }
 
 //    @GetMapping("/getCurrentUser-details")

@@ -95,7 +95,7 @@ public class Staff implements Serializable {
      */
     @Schema(description = "身份证号", required = true)
     @NotNull
-    @Column(name = "id_num", nullable = false, unique = true)
+    @Column(name = "id_num", nullable = false, unique = false)
     private String idNum;
 
     /**

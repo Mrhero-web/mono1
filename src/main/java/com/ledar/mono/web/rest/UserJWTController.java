@@ -52,7 +52,13 @@ public class UserJWTController {
     @Operation(summary = "登录")
     public ResponseEntity<Object> authorize(@Valid @RequestBody LoginVM loginVM) {
         Optional<User> user = userRepository.findOneByLogin(loginVM.getUsername());
-        Long userId = user.get().getId();
+        Long userId = null;
+        if(user.isPresent()){
+            userId = user.get().getId();
+        }
+        else{
+            throw new BadRequestAlertException("用户名不存在","","登录失败");
+        }
         List<Status> roleStatusByUserId = userRoleRepository.getAllRoleStatusByUserId(userId);
         List<String> roleByUserId = userRoleRepository.getAllRoleCodeByUserId(userId);
         System.out.println(roleStatusByUserId);

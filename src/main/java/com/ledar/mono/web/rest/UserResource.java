@@ -82,7 +82,7 @@ public class UserResource {
      *
      */
     @Transactional
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+//    @PreAuthorize("hasRole('ROLE_ADMINISTRATOR')")
     @PutMapping("/user/assignRoleToStaff")
     @Operation(summary = "分配角色给员工", description = "作者：田春晓")
     public ResponseEntity<Void> assignRoleToStaff(@RequestParam Long staffId,
@@ -109,7 +109,7 @@ public class UserResource {
 * 根据传入参数查询展示相应数据，如果没有相应参数，展示全部数据
 * 或许可以在每条数据的后面加上重置或修改密码按钮
 * */
-    //@PreAuthorize("hasRole('ROLE_ADMIN')")
+    //@PreAuthorize("hasRole('ROLE_ADMINISTRATOR')")
     @Operation(summary ="用户信息列表", description="作者：田春晓")
     @GetMapping("/user/userssList")
     public ResponseEntity<List<User>> usersList(@RequestParam(required = false) String login,
@@ -132,49 +132,56 @@ public class UserResource {
 /*
 通过userId获取用户的详细信息，在展示用户列表时，后面可以添加用户详情按钮
 */
-    //@PreAuthorize("hasRole('ROLE_ADMIN')")
+    //@PreAuthorize("hasRole('ROLE_ADMINISTRATOR')")
     @Operation(summary = "用户详情", description = "作者：田春晓")
     @GetMapping("/user/userById")
     public ResponseEntity<User> getUserId(@RequestParam Long id) {
         Optional<User> user = userRepository.findById(id);
         return ResponseUtil.wrapOrNotFound(user);
     }
+
 /*
 管理员启用用户
 */
     @Operation(summary = "启用用户", description = "作者：田春晓")
     @PutMapping("/user/restartUser")
-    public ResponseEntity<Void> restartUser(@RequestParam Long userId) {
-       userService.restartUser(userId);
+    //传过来一个用户id，即userId
+    public ResponseEntity<Void> restartUser(@RequestParam Long id) {
+       userService.restartUser(id);
        return ResponseEntity.ok().build();
     }
-    /*
+
+/*
 管理员禁用用户
 */
-    //@PreAuthorize("hasRole('ROLE_ADMIN')")
+
+    //@PreAuthorize("hasRole('ROLE_ADMINISTRATOR')")
     @Operation(summary = "禁用用户", description = "作者：田春晓")
     @PutMapping("/user/disableUser")
-    public ResponseEntity<Void> disableUser(@RequestParam Long userId) {
-        userService.disableUser(userId);
+    //传过来一个用户id，即userId
+    public ResponseEntity<Void> disableUser(@RequestParam Long id) {
+        userService.disableUser(id);
         return ResponseEntity.ok().build();
     }
+
 
 /*
 管理员初始化密码为123456
 */
-    //@PreAuthorize("hasRole('ROLE_ADMIN')")
+    //@PreAuthorize("hasRole('ROLE_ADMINISTRATOR')")
     @Operation(summary = "初始化密码", description = "作者：田春晓")
     @PutMapping("/user/initialUserPassword")
     public ResponseEntity<Void> initialUserPassword(@RequestParam String login) {
         userService.initialUserPassword(login);
         return ResponseEntity.ok().build();
     }
+
 /*
 * 患者注册账号,只适用于住院系统里有信息的患者，并且护士没有录入信息的患者
 *身份证号用于当前账号与patient表里的住院患者信息相关联。
 * 员工如果新增账号，需要由管理员去新增账号并分配角色
  */
-@Operation(summary = "注册账号", description = "作者：田春晓")
+@Operation(summary = "为员工注册账号", description = "作者：田春晓")
 @PostMapping("/user/register")
 public ResponseEntity<Void> register(@RequestParam String login,
                                      @RequestParam String password,
@@ -186,6 +193,7 @@ public ResponseEntity<Void> register(@RequestParam String login,
     if(idNum.length() < 18){
         throw new BadRequestAlertException("您输入的身份证号不满18位，请重新输入","","注册失败");
     }
+
     User newUser = new User();
     newUser.setLogin(login);
     newUser.setPassword(passwordEncoder.encode(password));

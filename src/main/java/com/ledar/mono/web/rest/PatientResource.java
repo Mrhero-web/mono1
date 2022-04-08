@@ -68,6 +68,7 @@ public class PatientResource {
         this.queryFactory = queryFactory;
         this.userService = userService;
     }
+
 /*
 * 医生或者护士录入患者信息，默认密码123456，patient、staff表不存password，只存login
 * */
@@ -203,7 +204,7 @@ public class PatientResource {
        // return ResponseEntity.ok().build();
     }
 
-    @DeleteMapping("/patients/deletetPatientUser")
+    @PutMapping("/patients/deletetPatientUser")
     @Operation(summary = "删除患者用户", description = "作者：田春晓")
 
     public ResponseEntity<Void> deleteUser(@RequestParam Long id) {

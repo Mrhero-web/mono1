@@ -72,14 +72,19 @@ public class StaffResource {
     /*
      * 科室主任、管理员录入员工信息、新增账号，默认密码123456，patient、staff表不存password，只存login
      * */
-        @PreAuthorize("hasRole('ROLE_DEPARTMENTMANAGER') or hasRole('ROLE_ADMIN')")
+//        @PreAuthorize("hasRole('ROLE_DEPARTMENTMANAGER') or hasRole('ROLE_ADMINISTRATOR')")
         @Operation(summary ="新增员工信息以及账号",description = "作者：田春晓")
         @PostMapping("/staff/create")
         public ResponseEntity<Staff> createStaff(@RequestBody Staff staff) throws URISyntaxException {
             //先判断传入的login是否已经存在
             Optional<User> userAlreadyExistsByLogin = userRepository.findOneByLoginAndUserStatusIsNot(staff.getLogin(),Status.DELETE);
+            //通过身份证号查询员工
             Optional<Staff> staffAlreadyExistsByIdNum = staffRepository.findOneByIdNum(staff.getIdNum());
-            Optional<User> staffAlreadyExistsByIdNumAndUserNotDeleted = userRepository.findByIdAndUserStatusIsNot(staffAlreadyExistsByIdNum.get().getUserId(),Status.DELETE);
+            Optional<User> staffAlreadyExistsByIdNumAndUserNotDeleted =null;
+            if(staffAlreadyExistsByIdNum.isPresent()) {
+                staffAlreadyExistsByIdNumAndUserNotDeleted = userRepository.findByIdAndUserStatusIsNot(staffAlreadyExistsByIdNum.get().getUserId(), Status.DELETE);
+            }
+
             if(userAlreadyExistsByLogin.isPresent()) {
                 throw new BadRequestAlertException("登录账号已存在", "", "添加失败。");
             }
@@ -90,8 +95,10 @@ public class StaffResource {
             User newUser = userService.createUser(staff.getLogin());
             //把新增的userId赋给staff表的userId字段
             staff.setUserId(newUser.getId());
+
             //2、再新增一条staff数据
             Staff result = staffRepository.save(staff);
+
             UserRole newUserRole = new UserRole();
             newUserRole.setUserId(newUser.getId());
             //通过 roleName 获取相应的 role 对象，初始角色默认为医生，管理员可以修改
@@ -193,7 +200,7 @@ public class StaffResource {
         return ResponseEntity.ok().build();
     }
 
-    @Operation(summary = "删除用户", description = "作者：田春晓")
+    @Operation(summary = "删除员工用户", description = "作者：田春晓")
     @DeleteMapping("/staff/deletetUser")
     public ResponseEntity<Void> deleteUser(@RequestParam Long id) {
         //根据StaffId将userStatus置为DELETE
